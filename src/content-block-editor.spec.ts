@@ -56,4 +56,30 @@ describe("ContentBlockEditor", () => {
         expect(options?.fontFamily).toEqual('Comic Sans')
         expect(options?.fontSize).toEqual(100)
     })
+
+    test("it allows the height of the editor to be specified", () => {
+        window.document.body.innerHTML = '<textarea class="my-selector" data-editor-height="400px">Some text is here</textarea>'
+        const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
+        contentBlockEditor.initialize()
+
+        const wrapper = document.querySelector(".content-block-editor__wrapper")
+
+        expect(wrapper?.getAttribute("style")).toEqual("height: 400px")
+    })
+
+    test("it gets the height of the textarea if a custom height is not specified", () => {
+        window.getComputedStyle = vi.fn().mockImplementation(() => {
+            return {
+                height: "40px",
+                fontSize: "20px",
+            }
+        })
+
+        const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
+        contentBlockEditor.initialize()
+
+        const wrapper = document.querySelector(".content-block-editor__wrapper")
+
+        expect(wrapper?.getAttribute("style")).toEqual("height: 40px")
+    })
 })

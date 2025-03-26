@@ -15,10 +15,14 @@ export class ContentBlockEditor {
             throw new Error(`Can't find selector ${this.selector}`)
         }
 
-        const container = document.createElement('div')
-        module.after(container)
-
         const styles = window.getComputedStyle(module)
+
+        const height = module.dataset.editorHeight || styles.height
+
+        const container = document.createElement('div')
+        container.classList.add("content-block-editor__wrapper")
+        container.setAttribute("style", `height: ${height}`)
+        module.after(container)
 
         this.editor = monaco.editor.create(container, {
           value: module.value,
