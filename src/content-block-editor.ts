@@ -18,8 +18,18 @@ export class ContentBlockEditor {
         const container = document.createElement('div')
         module.after(container)
 
+        const styles = window.getComputedStyle(module)
+
         this.editor = monaco.editor.create(container, {
-          value: module.value
+          value: module.value,
+          language: "govspeak",
+          minimap: { enabled: false },
+          lineNumbers: "off",
+          fontFamily: styles.fontFamily,
+          fontSize: Number(styles.fontSize.replace(/\D/g,'')),
+          glyphMargin: false,
+          lineDecorationsWidth: 0,
+          lineNumbersMinChars: 0,
         })
     }
 }
