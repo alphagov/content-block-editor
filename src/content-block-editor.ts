@@ -1,6 +1,7 @@
 import * as monaco from "monaco-editor"
 
 export class ContentBlockEditor {
+    editor: monaco.editor.IStandaloneCodeEditor | undefined;
     constructor(private readonly selector: string) {}
 
     initialize() {
@@ -13,7 +14,7 @@ export class ContentBlockEditor {
         const container = document.createElement('div')
         module.after(container)
 
-        monaco.editor.create(container, {
+        this.editor = monaco.editor.create(container, {
           value: module.value
         })
     }

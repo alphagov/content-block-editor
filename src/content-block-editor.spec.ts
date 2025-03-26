@@ -22,4 +22,14 @@ describe("ContentBlockEditor", () => {
             contentBlockEditor.initialize()
         }).toThrow("Can't find selector .another-selector")
     })
+
+    test("it copies the value from the textarea", () => {
+        window.document.body.innerHTML = '<textarea class="my-selector">Some text is here</textarea>'
+
+        const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
+        contentBlockEditor.initialize()
+
+        const editor = contentBlockEditor.editor
+        expect(editor?.getValue()).toEqual("Some text is here")
+    })
 })
