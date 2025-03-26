@@ -1,8 +1,12 @@
 import * as monaco from "monaco-editor"
+import tokens from "./monaco/tokens.ts";
 
 export class ContentBlockEditor {
     editor: monaco.editor.IStandaloneCodeEditor | undefined;
-    constructor(private readonly selector: string) {}
+    constructor(private readonly selector: string) {
+        monaco.languages.register({ id: "govspeak" });
+        monaco.languages.setMonarchTokensProvider("govspeak", tokens)
+    }
 
     initialize() {
         const module = <HTMLTextAreaElement>document.querySelector(this.selector)
