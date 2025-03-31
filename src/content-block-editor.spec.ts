@@ -85,4 +85,15 @@ describe("ContentBlockEditor", () => {
 
         expect(wrapper?.getAttribute("style")).toEqual("height: 40px")
     })
+
+    test("it updates the textarea when the editor is updated", () => {
+        const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
+        contentBlockEditor.initialize()
+
+        contentBlockEditor.editor?.setValue("I'm updating text here!")
+
+        const module = <HTMLTextAreaElement>document.querySelector(".my-selector")
+
+        expect(module.value).to.eq("I'm updating text here!")
+    })
 })

@@ -37,5 +37,9 @@ export class ContentBlockEditor {
           lineDecorationsWidth: 0,
           lineNumbersMinChars: 0,
         })
+
+        this.editor.onDidChangeModelContent(() => {
+            module.value = <string>this.editor?.getValue()
+        })
     }
 }
