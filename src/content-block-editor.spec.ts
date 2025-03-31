@@ -21,6 +21,15 @@ describe("ContentBlockEditor", () => {
         expect(document.querySelector(".monaco-editor")).not.toBeNull
     })
 
+    test("it hides the textarea", () => {
+        const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
+        contentBlockEditor.initialize()
+
+        const classes = Array.from(document.querySelector(".my-selector")?.classList || [])
+
+        expect(classes).to.include("govuk-visually-hidden")
+    })
+
     test("it throws an error if the selector doesn't exist", () => {
         const contentBlockEditor = new window.ContentBlockEditor(".another-selector")
 

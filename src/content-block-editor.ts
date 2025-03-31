@@ -24,6 +24,8 @@ export class ContentBlockEditor {
         container.setAttribute("style", `height: ${height}`)
         module.after(container)
 
+        module.classList.add("govuk-visually-hidden")
+
         this.editor = monaco.editor.create(container, {
           value: module.value,
           language: "govspeak",
