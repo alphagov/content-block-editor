@@ -1,5 +1,6 @@
 import * as monaco from "monaco-editor"
 import tokens from "./monaco/tokens.ts";
+import variables from "./variables.module.scss";
 
 export class ContentBlockEditor {
     editor: monaco.editor.IStandaloneCodeEditor | undefined;
@@ -16,7 +17,6 @@ export class ContentBlockEditor {
         }
 
         const styles = window.getComputedStyle(module)
-
         const height = module.dataset.editorHeight || styles.height
 
         const container = document.createElement('div')
@@ -31,8 +31,8 @@ export class ContentBlockEditor {
           language: "govspeak",
           minimap: { enabled: false },
           lineNumbers: "off",
-          fontFamily: styles.fontFamily,
-          fontSize: Number(styles.fontSize.replace(/\D/g,'')),
+          fontFamily: variables.fontFamily,
+          fontSize: 19,
           glyphMargin: false,
           lineDecorationsWidth: 0,
           lineNumbersMinChars: 0,

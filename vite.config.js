@@ -1,6 +1,12 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite"
+import { resolve } from "path"
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            'govuk': resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk'),
+        },
+    },
     test: {
         setupFiles: ['./vitest.setup.ts'],
         environment: 'jsdom',

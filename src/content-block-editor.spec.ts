@@ -1,6 +1,7 @@
 import {expect, test, describe, beforeEach, vi, afterEach} from 'vitest'
 
 import { ContentBlockEditor } from "./content-block-editor.ts"
+import variables from "./variables.module.scss";
 
 describe("ContentBlockEditor", () => {
     beforeEach(() => {
@@ -48,22 +49,15 @@ describe("ContentBlockEditor", () => {
         expect(editor?.getValue()).toEqual("Some text is here")
     })
 
-    test("it gets computed styles from the textarea", () => {
-        window.getComputedStyle = vi.fn().mockImplementation(() => {
-            return {
-                fontFamily: "Comic Sans",
-                fontSize: "100px"
-            }
-        })
-
+    test("it sets font styles correctly", () => {
         const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
         contentBlockEditor.initialize()
         const editor = contentBlockEditor.editor
 
         const options = editor?.getRawOptions()
 
-        expect(options?.fontFamily).toEqual('Comic Sans')
-        expect(options?.fontSize).toEqual(100)
+        expect(options?.fontFamily).toEqual(variables.fontFamily)
+        expect(options?.fontSize).toEqual(19)
     })
 
     test("it allows the height of the editor to be specified", () => {
