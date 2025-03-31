@@ -1,12 +1,17 @@
 import * as monaco from "monaco-editor"
 import tokens from "./monaco/tokens.ts";
+import theme from "./monaco/theme.ts";
 import variables from "./variables.module.scss";
 
 export class ContentBlockEditor {
     editor: monaco.editor.IStandaloneCodeEditor | undefined;
+    themeName = "content-block-editor"
+    languageId = "govspeak"
+
     constructor(private readonly selector: string) {
-        monaco.languages.register({ id: "govspeak" });
-        monaco.languages.setMonarchTokensProvider("govspeak", tokens)
+        monaco.languages.register({ id: this.languageId });
+        monaco.languages.setMonarchTokensProvider(this.languageId, tokens)
+        monaco.editor.defineTheme(this.themeName, theme);
     }
 
     initialize() {
@@ -28,7 +33,7 @@ export class ContentBlockEditor {
 
         this.editor = monaco.editor.create(container, {
           value: module.value,
-          language: "govspeak",
+          language: this.languageId,
           minimap: { enabled: false },
           lineNumbers: "off",
           fontFamily: variables.fontFamily,
@@ -36,6 +41,7 @@ export class ContentBlockEditor {
           glyphMargin: false,
           lineDecorationsWidth: 0,
           lineNumbersMinChars: 0,
+          theme: this.themeName,
         })
 
         this.editor.onDidChangeModelContent(() => {
