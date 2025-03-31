@@ -1,0 +1,9 @@
+@import "govuk/base";
+@import "govuk/components/textarea";
+
+.content-block-editor {
+  &__wrapper {
+    @extend .govuk-textarea;
+    padding: 0;
+  }
+}
