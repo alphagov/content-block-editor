@@ -47,6 +47,7 @@ In future, we'd like to:
 - [ ] Add contextual information (using [`registerInlayHintsProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerInlayHintsProvider.html))
 - [ ] Add information about a block on hover (using [`registerHoverProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerHoverProvider.html))
 - [ ] Highlight invalid / not found blocks
+- [ ] Add autocompletion (using [`registerCompletionItemProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerCompletionItemProvider.html))
 
 All of the above require an API endpoint to be provided to provide information about blocks, which we don't (currently)
 have.
