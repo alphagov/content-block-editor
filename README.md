@@ -54,3 +54,6 @@ have.
 
 Additionally, we can quite easily provide Markdown highlighting using [see the Markdown example here](https://microsoft.github.io/monaco-editor/monarch.html),
 but we need to test the basic principle with users first.
+
+A (very rough) prototype containing much of these features can be found in the [Prototype directory](./prototype). The
+most interesting stuff can be found in the [monaco.js file](./prototype/js/monaco.js)
