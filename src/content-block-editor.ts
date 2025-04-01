@@ -1,3 +1,5 @@
+import "../scss/base.scss"
+
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tokens from "./monaco/tokens.ts";

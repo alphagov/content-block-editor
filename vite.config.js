@@ -11,6 +11,13 @@ export default defineConfig({
             fileName: "content-block-editor",
         },
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true,
+            },
+        },
+    },
     resolve: {
         alias: {
             'govuk': resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk'),
