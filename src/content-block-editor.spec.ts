@@ -4,8 +4,8 @@ import { ContentBlockEditor } from "./content-block-editor.ts";
 import variables from "./variables.module.scss";
 
 describe("ContentBlockEditor", () => {
-  let module: HTMLTextAreaElement
-  let contentBlockEditor: ContentBlockEditor
+  let module: HTMLTextAreaElement;
+  let contentBlockEditor: ContentBlockEditor;
 
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
@@ -14,7 +14,7 @@ describe("ContentBlockEditor", () => {
     window.document.body.innerHTML =
       '<textarea class="my-selector"></textarea>';
 
-    module = <HTMLTextAreaElement>document.querySelector(".my-selector")
+    module = <HTMLTextAreaElement>document.querySelector(".my-selector");
     contentBlockEditor = new window.ContentBlockEditor(module);
   });
 
@@ -39,10 +39,9 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it throws an error if the module is not a textarea", () => {
-    window.document.body.innerHTML =
-        '<div class="my-selector"></div>';
+    window.document.body.innerHTML = '<div class="my-selector"></div>';
 
-    module = <HTMLTextAreaElement>document.querySelector(".my-selector")
+    module = <HTMLTextAreaElement>document.querySelector(".my-selector");
 
     expect(() => {
       new window.ContentBlockEditor(module);
@@ -50,7 +49,7 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it copies the value from the textarea", () => {
-    module.value = "Some text is here"
+    module.value = "Some text is here";
 
     contentBlockEditor.initialize();
     const editor = contentBlockEditor.editor;
@@ -69,7 +68,7 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it allows the height of the editor to be specified", () => {
-    module.dataset.editorHeight = "400px"
+    module.dataset.editorHeight = "400px";
     contentBlockEditor.initialize();
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");

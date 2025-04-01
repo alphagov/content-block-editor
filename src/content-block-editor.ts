@@ -13,14 +13,14 @@ self.MonacoEnvironment = {
 };
 
 export class ContentBlockEditor {
-  module: HTMLTextAreaElement
+  module: HTMLTextAreaElement;
   editor: monaco.editor.IStandaloneCodeEditor | undefined;
   themeName = "content-block-editor";
   languageId = "govspeak";
 
   constructor(module: Element) {
     if ("value" in module) {
-      this.module = <HTMLTextAreaElement>module
+      this.module = <HTMLTextAreaElement>module;
     } else {
       throw new Error(`The module ${module.outerHTML} is not a textarea`);
     }
