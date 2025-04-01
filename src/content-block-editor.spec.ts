@@ -4,12 +4,18 @@ import { ContentBlockEditor } from "./content-block-editor.ts";
 import variables from "./variables.module.scss";
 
 describe("ContentBlockEditor", () => {
+  let module: HTMLTextAreaElement
+  let contentBlockEditor: ContentBlockEditor
+
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
 
     window.ContentBlockEditor = ContentBlockEditor;
     window.document.body.innerHTML =
       '<textarea class="my-selector"></textarea>';
+
+    module = <HTMLTextAreaElement>document.querySelector(".my-selector")
+    contentBlockEditor = new window.ContentBlockEditor(module);
   });
 
   afterEach(() => {
@@ -17,14 +23,12 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it creates a container", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
     contentBlockEditor.initialize();
 
     expect(document.querySelector(".monaco-editor")).not.toBeNull();
   });
 
   test("it hides the textarea", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
     contentBlockEditor.initialize();
 
     const classes = Array.from(
@@ -34,21 +38,20 @@ describe("ContentBlockEditor", () => {
     expect(classes).to.include("govuk-visually-hidden");
   });
 
-  test("it throws an error if the selector doesn't exist", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(
-      ".another-selector",
-    );
+  test("it throws an error if the module is not a textarea", () => {
+    window.document.body.innerHTML =
+        '<div class="my-selector"></div>';
+
+    module = <HTMLTextAreaElement>document.querySelector(".my-selector")
 
     expect(() => {
-      contentBlockEditor.initialize();
-    }).toThrow("Can't find selector .another-selector");
+      new window.ContentBlockEditor(module);
+    }).toThrow('The module <div class="my-selector"></div> is not a textarea');
   });
 
   test("it copies the value from the textarea", () => {
-    window.document.body.innerHTML =
-      '<textarea class="my-selector">Some text is here</textarea>';
+    module.value = "Some text is here"
 
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
     contentBlockEditor.initialize();
     const editor = contentBlockEditor.editor;
 
@@ -56,7 +59,6 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it sets font styles correctly", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
     contentBlockEditor.initialize();
     const editor = contentBlockEditor.editor;
 
@@ -67,9 +69,7 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it allows the height of the editor to be specified", () => {
-    window.document.body.innerHTML =
-      '<textarea class="my-selector" data-editor-height="400px">Some text is here</textarea>';
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
+    module.dataset.editorHeight = "400px"
     contentBlockEditor.initialize();
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");
@@ -85,7 +85,6 @@ describe("ContentBlockEditor", () => {
       };
     });
 
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
     contentBlockEditor.initialize();
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");
@@ -94,7 +93,6 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it updates the textarea when the editor is updated", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(".my-selector");
     contentBlockEditor.initialize();
 
     contentBlockEditor.editor?.setValue("I'm updating text here!");
