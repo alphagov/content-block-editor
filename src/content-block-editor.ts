@@ -49,9 +49,13 @@ export class ContentBlockEditor {
       fontSize: 19,
       glyphMargin: false,
       folding: false,
-      lineDecorationsWidth: 0,
+      lineDecorationsWidth: 5,
       lineNumbersMinChars: 0,
       theme: this.themeName,
+      padding: {
+        top: 5,
+        bottom: 5,
+      },
       wordWrap: "on",
     });
 
