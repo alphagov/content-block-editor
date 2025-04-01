@@ -6,34 +6,36 @@ A prototype using [Monaco Editor](https://microsoft.github.io/monaco-editor/) to
 
 1. Clone the repo
 1. Install dependencies:
-   
+
    ```bash
    npm install
    ```
+
 1. Run the development server:
-   
+
    ```bash
    npm run dev
    ```
+
 1. Access the [Example editor](http://localhost:5173/)
 1. Run tests
-   
+
    ### Unit tests
-   
+
    ```bash
    npm run test
    ```
-   
+
    ### E2E tests (using [Playwright](https://playwright.dev/))
-   
+
    ```bash
    npm run e2e-test
    ```
-   
+
 ## Overview
 
 The editor can be used as a "drop-in" replacement for textareas, allowing Content Block embed codes from
-[Content Block Manager](https://docs.publishing.service.gov.uk/repos/whitehall/content_block_manager.html) to be 
+[Content Block Manager](https://docs.publishing.service.gov.uk/repos/whitehall/content_block_manager.html) to be
 highlighted, and (in future) provide contextual information about the blocks.
 
 Currently, all that the application does is highlight blocks like so:

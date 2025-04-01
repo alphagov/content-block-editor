@@ -1,3 +1,3 @@
 export default {
-    embedHighlightColour: "ffa500"
-}
+  embedHighlightColour: "ffa500",
+};
