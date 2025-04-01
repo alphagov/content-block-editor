@@ -49,6 +49,7 @@ export class ContentBlockEditor {
           lineDecorationsWidth: 0,
           lineNumbersMinChars: 0,
           theme: this.themeName,
+          wordWrap: "on",
         })
 
         this.editor.onDidChangeModelContent(() => {
