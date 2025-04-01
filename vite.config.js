@@ -35,6 +35,10 @@ export default defineConfig({
                 resources: 'usable',
             },
         },
+        exclude: [
+            "**/node_modules/**",
+            "**/e2e/**",
+        ],
         alias: [
             {
                 find: /^monaco-editor$/,
