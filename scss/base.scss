@@ -6,5 +6,9 @@
     @extend .govuk-textarea;
     padding: 0;
     position: relative;
+
+    &--focussed {
+      @extend .govuk-textarea, :focus;
+    }
   }
 }

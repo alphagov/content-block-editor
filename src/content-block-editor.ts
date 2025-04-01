@@ -46,6 +46,7 @@ export class ContentBlockEditor {
           fontFamily: variables.fontFamily,
           fontSize: 19,
           glyphMargin: false,
+          folding: false,
           lineDecorationsWidth: 0,
           lineNumbersMinChars: 0,
           theme: this.themeName,
@@ -54,6 +55,14 @@ export class ContentBlockEditor {
 
         this.editor.onDidChangeModelContent(() => {
             module.value = <string>this.editor?.getValue()
+        })
+
+        this.editor.onDidFocusEditorText(() => {
+            container.classList.add("content-block-editor__wrapper--focussed")
+        })
+
+        this.editor.onDidBlurEditorText(() => {
+            container.classList.remove("content-block-editor__wrapper--focussed")
         })
     }
 }
