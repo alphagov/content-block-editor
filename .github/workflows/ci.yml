@@ -23,17 +23,25 @@ jobs:
   lint:
     uses: ./.github/workflows/lint.yml
 
-  run-playwright-tests:
-    uses: ./.github/workflows/playwright.yml
-
   prettier:
     uses: ./.github/workflows/prettier.yml
 
+  run-playwright-tests:
+    needs:
+      - lint
+      - prettier
+    uses: ./.github/workflows/playwright.yml
+
   vitest:
+    needs:
+      - lint
+      - prettier
     uses: ./.github/workflows/vitest.yml
 
   release:
-    needs: vitest
+    needs:
+      - vitest
+      - run-playwright-tests
     permissions:
       contents: write
     uses: alphagov/govuk-infrastructure/.github/workflows/publish-npm-package.yml@main
