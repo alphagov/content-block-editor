@@ -40,7 +40,7 @@ highlighted, and (in future) provide contextual information about the blocks.
 
 Currently, all that the application does is highlight blocks like so:
 
-[Preview](docs/img/preview.png)
+![Preview](docs/img/preview.png)
 
 In future, we'd like to:
 
