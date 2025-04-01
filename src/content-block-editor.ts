@@ -7,7 +7,7 @@ import theme from "./monaco/theme.ts";
 import variables from "./variables.module.scss";
 
 self.MonacoEnvironment = {
-    getWorker(_, _label) {
+    getWorker() {
         return new editorWorker()
     }
 }

@@ -19,7 +19,7 @@ describe("ContentBlockEditor", () => {
         const contentBlockEditor = new window.ContentBlockEditor(".my-selector")
         contentBlockEditor.initialize()
 
-        expect(document.querySelector(".monaco-editor")).not.toBeNull
+        expect(document.querySelector(".monaco-editor")).not.toBeNull()
     })
 
     test("it hides the textarea", () => {
