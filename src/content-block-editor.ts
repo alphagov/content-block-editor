@@ -1,7 +1,14 @@
-import * as monaco from "monaco-editor"
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tokens from "./monaco/tokens.ts";
 import theme from "./monaco/theme.ts";
 import variables from "./variables.module.scss";
+
+self.MonacoEnvironment = {
+    getWorker(_, _label) {
+        return new editorWorker()
+    }
+}
 
 export class ContentBlockEditor {
     editor: monaco.editor.IStandaloneCodeEditor | undefined;
@@ -49,3 +56,5 @@ export class ContentBlockEditor {
         })
     }
 }
+
+window.ContentBlockEditor = ContentBlockEditor;
