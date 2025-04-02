@@ -28,7 +28,7 @@ export class ContentBlockEditor {
 
   initializeModule = (element: Element): HTMLTextAreaElement => {
     if ("value" in element) {
-      element.classList.add("govuk-visually-hidden")
+      element.classList.add("govuk-visually-hidden");
       return <HTMLTextAreaElement>element;
     } else {
       throw new Error(`The module ${element.outerHTML} is not a textarea`);
