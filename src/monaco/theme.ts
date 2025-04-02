@@ -13,5 +13,6 @@ export default <monaco.editor.IStandaloneThemeData>{
   ],
   colors: {
     "editor.foreground": "#000000",
+    "editor.lineHighlightBorder": "#fff",
   },
 };
