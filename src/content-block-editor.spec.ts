@@ -23,14 +23,10 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it creates a container", () => {
-    contentBlockEditor.initialize();
-
     expect(document.querySelector(".monaco-editor")).not.toBeNull();
   });
 
   test("it hides the textarea", () => {
-    contentBlockEditor.initialize();
-
     const classes = Array.from(
       document.querySelector(".my-selector")?.classList || [],
     );
@@ -50,15 +46,14 @@ describe("ContentBlockEditor", () => {
 
   test("it copies the value from the textarea", () => {
     module.value = "Some text is here";
+    contentBlockEditor = new window.ContentBlockEditor(module);
 
-    contentBlockEditor.initialize();
     const editor = contentBlockEditor.editor;
 
     expect(editor?.getValue()).toEqual("Some text is here");
   });
 
   test("it sets font styles correctly", () => {
-    contentBlockEditor.initialize();
     const editor = contentBlockEditor.editor;
 
     const options = editor?.getRawOptions();
@@ -69,7 +64,7 @@ describe("ContentBlockEditor", () => {
 
   test("it allows the height of the editor to be specified", () => {
     module.dataset.editorHeight = "400px";
-    contentBlockEditor.initialize();
+    contentBlockEditor = new window.ContentBlockEditor(module);
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");
 
@@ -83,8 +78,7 @@ describe("ContentBlockEditor", () => {
         fontSize: "20px",
       };
     });
-
-    contentBlockEditor.initialize();
+    contentBlockEditor = new window.ContentBlockEditor(module);
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");
 
@@ -92,8 +86,6 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it updates the textarea when the editor is updated", () => {
-    contentBlockEditor.initialize();
-
     contentBlockEditor.editor?.setValue("I'm updating text here!");
 
     const module = <HTMLTextAreaElement>document.querySelector(".my-selector");

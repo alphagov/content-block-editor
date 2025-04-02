@@ -14,34 +14,46 @@ self.MonacoEnvironment = {
 
 export class ContentBlockEditor {
   module: HTMLTextAreaElement;
-  editor: monaco.editor.IStandaloneCodeEditor | undefined;
+  container: HTMLDivElement;
+  editor: monaco.editor.IStandaloneCodeEditor;
+
   themeName = "content-block-editor";
   languageId = "govspeak";
 
-  constructor(module: Element) {
-    if ("value" in module) {
-      this.module = <HTMLTextAreaElement>module;
-    } else {
-      throw new Error(`The module ${module.outerHTML} is not a textarea`);
-    }
-
-    monaco.languages.register({ id: this.languageId });
-    monaco.languages.setMonarchTokensProvider(this.languageId, tokens);
-    monaco.editor.defineTheme(this.themeName, theme);
+  constructor(element: Element) {
+    this.module = this.initializeModule(element);
+    this.container = this.createContainer();
+    this.editor = this.createEditor();
   }
 
-  initialize() {
+  initializeModule = (element: Element): HTMLTextAreaElement => {
+    if ("value" in element) {
+      element.classList.add("govuk-visually-hidden")
+      return <HTMLTextAreaElement>element;
+    } else {
+      throw new Error(`The module ${element.outerHTML} is not a textarea`);
+    }
+  };
+
+  createContainer(): HTMLDivElement {
     const styles = window.getComputedStyle(this.module);
     const height = this.module.dataset.editorHeight || styles.height;
 
     const container = document.createElement("div");
     container.classList.add("content-block-editor__wrapper");
     container.setAttribute("style", `height: ${height}`);
+
     this.module.after(container);
 
-    this.module.classList.add("govuk-visually-hidden");
+    return container;
+  }
 
-    this.editor = monaco.editor.create(container, {
+  createEditor() {
+    monaco.languages.register({ id: this.languageId });
+    monaco.languages.setMonarchTokensProvider(this.languageId, tokens);
+    monaco.editor.defineTheme(this.themeName, theme);
+
+    const editor = monaco.editor.create(this.container, {
       value: this.module.value,
       language: this.languageId,
       minimap: { enabled: false },
@@ -60,17 +72,21 @@ export class ContentBlockEditor {
       wordWrap: "on",
     });
 
-    this.editor.onDidChangeModelContent(() => {
+    editor.onDidChangeModelContent(() => {
       this.module.value = <string>this.editor?.getValue();
     });
 
-    this.editor.onDidFocusEditorText(() => {
-      container.classList.add("content-block-editor__wrapper--focussed");
+    editor.onDidFocusEditorText(() => {
+      this.container.classList.add("content-block-editor__wrapper--focussed");
     });
 
-    this.editor.onDidBlurEditorText(() => {
-      container.classList.remove("content-block-editor__wrapper--focussed");
+    editor.onDidBlurEditorText(() => {
+      this.container.classList.remove(
+        "content-block-editor__wrapper--focussed",
+      );
     });
+
+    return editor;
   }
 }
 
