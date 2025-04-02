@@ -24,11 +24,12 @@ export class ContentBlockEditor {
     this.module = this.initializeModule(element);
     this.container = this.createContainer();
     this.editor = this.createEditor();
+
+    element.classList.add("govuk-visually-hidden");
   }
 
   initializeModule = (element: Element): HTMLTextAreaElement => {
     if ("value" in element) {
-      element.classList.add("govuk-visually-hidden");
       return <HTMLTextAreaElement>element;
     } else {
       throw new Error(`The module ${element.outerHTML} is not a textarea`);

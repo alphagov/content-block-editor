@@ -66,4 +66,12 @@ test.describe("Editor Container", () => {
 
     await expect(wrapper).toHaveClass("content-block-editor__wrapper");
   });
+
+  test("it ensures the editor is the same height as the textarea", async ({
+    page,
+  }) => {
+    const wrapper = page.locator(".content-block-editor__wrapper");
+
+    await expect(wrapper).toHaveCSS("height", "400px");
+  });
 });
