@@ -8,6 +8,15 @@ export class ContentBlock {
     readonly schemaName: string,
   ) {}
 
+  get blockType() {
+    return this.schemaName
+      .replace("content_block_", "")
+      .replace("_", " ")
+      .split(" ")
+      .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
+      .join(" ");
+  }
+
   static all(): Array<ContentBlock> {
     if (!window.contentBlocks) {
       const json = JSON.parse(

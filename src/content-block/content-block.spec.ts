@@ -68,4 +68,17 @@ describe("ContentBlock", () => {
       expect(contentBlock).toBeUndefined();
     });
   });
+
+  describe("blockType", () => {
+    test("it returns a humanized block type", () => {
+      const contentBlock = new ContentBlock(
+        "",
+        "",
+        {},
+        "content_block_email_address",
+      );
+
+      expect(contentBlock.blockType).toEqual("Email Address");
+    });
+  });
 });
