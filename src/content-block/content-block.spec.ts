@@ -81,4 +81,28 @@ describe("ContentBlock", () => {
       expect(contentBlock.blockType).toEqual("Email Address");
     });
   });
+
+  describe("digDetails", () => {
+    test("it digs through the details object", () => {
+      const contentBlock = new ContentBlock(
+        "",
+        "",
+        { foo: { bar: "baz" } },
+        "",
+      );
+
+      expect(contentBlock.digDetails(["foo", "bar"])).toEqual("baz");
+    });
+
+    test("it returns undefined when a key isn't found", () => {
+      const contentBlock = new ContentBlock(
+        "",
+        "",
+        { foo: { bar: "baz" } },
+        "",
+      );
+
+      expect(contentBlock.digDetails(["boo", "bar"])).toEqual(undefined);
+    });
+  });
 });

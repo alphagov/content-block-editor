@@ -1,10 +1,10 @@
-import { RawContentBlockData } from "../@types";
+import { NestedRecord, RawContentBlockData } from "../@types";
 
 export class ContentBlock {
   constructor(
     readonly title: string,
     readonly contentId: string,
-    readonly details: Record<string, unknown>,
+    readonly details: NestedRecord,
     readonly schemaName: string,
   ) {}
 
@@ -16,6 +16,19 @@ export class ContentBlock {
       .map((w) => w[0].toUpperCase() + w.substring(1).toLowerCase())
       .join(" ");
   }
+
+  digDetails = (keys: Array<string>): string => {
+    let value: NestedRecord | string = this.details;
+    keys.forEach(function (key) {
+      try {
+        value = (value as NestedRecord)[key];
+      } catch {
+        return undefined;
+      }
+    });
+
+    return value as unknown as string;
+  };
 
   static all(): Array<ContentBlock> {
     if (!window.contentBlocks) {
