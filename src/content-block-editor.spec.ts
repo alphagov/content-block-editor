@@ -1,32 +1,27 @@
-import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
+import { expect, test, describe, beforeEach, vi } from "vitest";
 
 import { ContentBlockEditor } from "./content-block-editor.ts";
-import variables from "./variables.module.scss";
 
 describe("ContentBlockEditor", () => {
   let module: HTMLTextAreaElement;
-  let contentBlockEditor: ContentBlockEditor;
 
   beforeEach(() => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-
     window.ContentBlockEditor = ContentBlockEditor;
     window.document.body.innerHTML =
       '<textarea class="my-selector"></textarea>';
 
     module = <HTMLTextAreaElement>document.querySelector(".my-selector");
-    contentBlockEditor = new window.ContentBlockEditor(module);
-  });
-
-  afterEach(() => {
-    vi.advanceTimersByTime(250);
   });
 
   test("it creates a container", () => {
+    new window.ContentBlockEditor(module);
+
     expect(document.querySelector(".monaco-editor")).not.toBeNull();
   });
 
   test("it hides the textarea", () => {
+    new window.ContentBlockEditor(module);
+
     const classes = Array.from(
       document.querySelector(".my-selector")?.classList || [],
     );
@@ -44,27 +39,9 @@ describe("ContentBlockEditor", () => {
     }).toThrow('The module <div class="my-selector"></div> is not a textarea');
   });
 
-  test("it copies the value from the textarea", () => {
-    module.value = "Some text is here";
-    contentBlockEditor = new window.ContentBlockEditor(module);
-
-    const editor = contentBlockEditor.editor;
-
-    expect(editor?.getValue()).toEqual("Some text is here");
-  });
-
-  test("it sets font styles correctly", () => {
-    const editor = contentBlockEditor.editor;
-
-    const options = editor?.getRawOptions();
-
-    expect(options?.fontFamily).toEqual(variables.fontFamily);
-    expect(options?.fontSize).toEqual(19);
-  });
-
   test("it allows the height of the editor to be specified", () => {
     module.dataset.editorHeight = "400px";
-    contentBlockEditor = new window.ContentBlockEditor(module);
+    new window.ContentBlockEditor(module);
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");
 
@@ -78,18 +55,10 @@ describe("ContentBlockEditor", () => {
         fontSize: "20px",
       };
     });
-    contentBlockEditor = new window.ContentBlockEditor(module);
+    new window.ContentBlockEditor(module);
 
     const wrapper = document.querySelector(".content-block-editor__wrapper");
 
     expect(wrapper?.getAttribute("style")).toEqual("height: 40px");
-  });
-
-  test("it updates the textarea when the editor is updated", () => {
-    contentBlockEditor.editor?.setValue("I'm updating text here!");
-
-    const module = <HTMLTextAreaElement>document.querySelector(".my-selector");
-
-    expect(module.value).to.eq("I'm updating text here!");
   });
 });

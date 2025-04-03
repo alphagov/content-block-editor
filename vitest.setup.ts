@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vitest";
 import "vitest-canvas-mock";
 
 Object.defineProperty(window, "matchMedia", {
@@ -13,4 +13,13 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
+});
+
+// Required for Canvas mocking to work correctly
+beforeEach(() => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+});
+
+afterEach(() => {
+  vi.advanceTimersByTime(250);
 });

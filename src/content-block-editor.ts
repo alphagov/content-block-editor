@@ -2,9 +2,7 @@ import "../scss/base.scss";
 
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-import tokens from "./monaco/tokens.ts";
-import theme from "./monaco/theme.ts";
-import variables from "./variables.module.scss";
+import { createEditor } from "./monaco/editor.ts";
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -23,7 +21,7 @@ export class ContentBlockEditor {
   constructor(element: Element) {
     this.module = this.initializeModule(element);
     this.container = this.createContainer();
-    this.editor = this.createEditor();
+    this.editor = createEditor(this.container, this.module);
 
     element.classList.add("govuk-visually-hidden");
   }
@@ -47,47 +45,6 @@ export class ContentBlockEditor {
     this.module.after(container);
 
     return container;
-  }
-
-  createEditor() {
-    monaco.languages.register({ id: this.languageId });
-    monaco.languages.setMonarchTokensProvider(this.languageId, tokens);
-    monaco.editor.defineTheme(this.themeName, theme);
-
-    const editor = monaco.editor.create(this.container, {
-      value: this.module.value,
-      language: this.languageId,
-      minimap: { enabled: false },
-      lineNumbers: "off",
-      fontFamily: variables.fontFamily,
-      fontSize: 19,
-      glyphMargin: false,
-      folding: false,
-      lineDecorationsWidth: 5,
-      lineNumbersMinChars: 0,
-      theme: this.themeName,
-      padding: {
-        top: 5,
-        bottom: 5,
-      },
-      wordWrap: "on",
-    });
-
-    editor.onDidChangeModelContent(() => {
-      this.module.value = <string>this.editor?.getValue();
-    });
-
-    editor.onDidFocusEditorText(() => {
-      this.container.classList.add("content-block-editor__wrapper--focussed");
-    });
-
-    editor.onDidBlurEditorText(() => {
-      this.container.classList.remove(
-        "content-block-editor__wrapper--focussed",
-      );
-    });
-
-    return editor;
   }
 }
 
