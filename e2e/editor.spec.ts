@@ -74,4 +74,40 @@ test.describe("Editor Container", () => {
 
     await expect(wrapper).toHaveCSS("height", "400px");
   });
+
+  test("it shows information about a block on hover", async ({ page }) => {
+    const monacoEditor = page.locator(".monaco-editor");
+    await monacoEditor.click();
+
+    const embedCode =
+      "{{embed:content_block_pension:bb00b32e-738c-478c-8b18-ddd8f3c62a21}}";
+
+    await page.keyboard.type(embedCode);
+
+    const element = monacoEditor.getByText("{{embed");
+
+    await element.hover();
+
+    await expect(page.getByText("Content Block: Pension")).toBeVisible();
+    await expect(page.getByText("Some Pension")).toBeVisible();
+  });
+
+  test("it shows information about a block with a reference on hover", async ({
+    page,
+  }) => {
+    const monacoEditor = page.locator(".monaco-editor");
+    await monacoEditor.click();
+
+    const embedCode =
+      "{{embed:content_block_pension:bb00b32e-738c-478c-8b18-ddd8f3c62a21/rates/rate-1/amount}}";
+
+    await page.keyboard.type(embedCode);
+
+    const element = monacoEditor.getByText("{{embed");
+
+    await element.hover();
+
+    await expect(page.getByText("Content Block: Pension")).toBeVisible();
+    await expect(page.getByText("£133.42")).toBeVisible();
+  });
 });

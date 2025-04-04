@@ -1,6 +1,7 @@
 import * as monaco from "monaco-editor";
 import tokens from "./tokens.ts";
 import theme from "./theme.ts";
+import hoverProvider from "./hoverProvider.ts";
 import variables from "../variables.module.scss";
 
 const themeName = "content-block-editor";
@@ -9,6 +10,9 @@ const languageId = "govspeak";
 const registerDefaults = () => {
   monaco.languages.register({ id: languageId });
   monaco.languages.setMonarchTokensProvider(languageId, tokens);
+  monaco.languages.registerHoverProvider(languageId, {
+    provideHover: hoverProvider,
+  });
   monaco.editor.defineTheme(themeName, theme);
 };
 
