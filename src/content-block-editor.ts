@@ -1,6 +1,6 @@
 import "../scss/base.scss";
 
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { createEditor } from "./monaco/editor.ts";
 
@@ -13,7 +13,7 @@ self.MonacoEnvironment = {
 export class ContentBlockEditor {
   module: HTMLTextAreaElement;
   container: HTMLDivElement;
-  editor: monaco.editor.IStandaloneCodeEditor;
+  editor: editor.IStandaloneCodeEditor;
 
   themeName = "content-block-editor";
   languageId = "govspeak";

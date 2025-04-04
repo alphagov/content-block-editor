@@ -1,4 +1,6 @@
-import * as monaco from "monaco-editor";
+import 'monaco-editor/esm/vs/editor/contrib/hover/browser/hoverContribution.js';
+
+import { languages, editor } from "monaco-editor/esm/vs/editor/editor.api";
 import tokens from "./tokens.ts";
 import theme from "./theme.ts";
 import hoverProvider from "./hoverProvider.ts";
@@ -8,21 +10,21 @@ const themeName = "content-block-editor";
 const languageId = "govspeak";
 
 const registerDefaults = () => {
-  monaco.languages.register({ id: languageId });
-  monaco.languages.setMonarchTokensProvider(languageId, tokens);
-  monaco.languages.registerHoverProvider(languageId, {
+  languages.register({ id: languageId });
+  languages.setMonarchTokensProvider(languageId, tokens);
+  languages.registerHoverProvider(languageId, {
     provideHover: hoverProvider,
   });
-  monaco.editor.defineTheme(themeName, theme);
+  editor.defineTheme(themeName, theme);
 };
 
 const createEditor = (
   container: HTMLElement,
   textarea: HTMLTextAreaElement,
-): monaco.editor.IStandaloneCodeEditor => {
+): editor.IStandaloneCodeEditor => {
   registerDefaults();
 
-  const editor = monaco.editor.create(container, {
+  const monacoEditor = editor.create(container, {
     value: textarea.value,
     language: languageId,
     minimap: { enabled: false },
@@ -41,19 +43,19 @@ const createEditor = (
     wordWrap: "on",
   });
 
-  editor.onDidChangeModelContent(() => {
-    textarea.value = <string>editor?.getValue();
+  monacoEditor.onDidChangeModelContent(() => {
+    textarea.value = <string>monacoEditor?.getValue();
   });
 
-  editor.onDidFocusEditorText(() => {
+  monacoEditor.onDidFocusEditorText(() => {
     container.classList.add("content-block-editor__wrapper--focussed");
   });
 
-  editor.onDidBlurEditorText(() => {
+  monacoEditor.onDidBlurEditorText(() => {
     container.classList.remove("content-block-editor__wrapper--focussed");
   });
 
-  return editor;
+  return monacoEditor;
 };
 
 export { createEditor };

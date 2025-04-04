@@ -1,7 +1,7 @@
 import regex from "../content-block/regex.ts";
-import * as monaco from "monaco-editor";
+import type { languages } from "monaco-editor";
 
-export default <monaco.languages.IMonarchLanguage>{
+export default <languages.IMonarchLanguage>{
   tokenizer: {
     root: [[regex, "embedded"]],
   },

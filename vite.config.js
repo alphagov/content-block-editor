@@ -3,7 +3,11 @@ import { resolve } from "path";
 import monacoEditorEsmPlugin from "vite-plugin-monaco-editor-esm";
 
 export default defineConfig({
-  plugins: [monacoEditorEsmPlugin()],
+  plugins: [
+    monacoEditorEsmPlugin({
+      languageWorkers: ["editorWorkerService"],
+    }),
+  ],
   build: {
     lib: {
       entry: resolve(__dirname, "src/content-block-editor.ts"),

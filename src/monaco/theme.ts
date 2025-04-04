@@ -1,8 +1,8 @@
-import * as monaco from "monaco-editor";
+import type { editor } from "monaco-editor";
 
 import config from "../config.ts";
 
-export default <monaco.editor.IStandaloneThemeData>{
+export default <editor.IStandaloneThemeData>{
   base: "vs",
   inherit: true,
   rules: [

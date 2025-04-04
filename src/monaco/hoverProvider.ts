@@ -1,11 +1,12 @@
-import * as monaco from "monaco-editor";
+import type { editor, Position, languages } from "monaco-editor";
+import { Range } from "monaco-editor/esm/vs/editor/editor.api";
 import regex from "../content-block/regex.ts";
 import { ContentBlock } from "../content-block/content-block.ts";
 
 const hoverProvider = (
-  model: monaco.editor.ITextModel,
-  position: monaco.Position,
-): monaco.languages.ProviderResult<monaco.languages.Hover> => {
+  model: editor.ITextModel,
+  position: Position,
+): languages.ProviderResult<languages.Hover> => {
   const lineContent = model.getLineContent(position.lineNumber);
   let match;
 
@@ -21,7 +22,7 @@ const hoverProvider = (
           ? blockData.digDetails(match[4].split("/"))
           : blockData.title;
         return {
-          range: new monaco.Range(
+          range: new Range(
             position.lineNumber,
             start,
             position.lineNumber,
