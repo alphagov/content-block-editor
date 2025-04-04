@@ -46,6 +46,6 @@ jobs:
       contents: write
     uses: alphagov/govuk-infrastructure/.github/workflows/publish-npm-package.yml@main
     with:
-      deploy_to_github_pages: false
+      deploy_to_github_pages: true
     secrets:
       NODE_AUTH_TOKEN: ${{ secrets.ALPHAGOV_NPM_AUTOMATION_TOKEN }}
