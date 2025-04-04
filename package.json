@@ -6,7 +6,8 @@
   "module": "./dist/content-block-editor.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && npm run build-examples",
+    "build-examples": "rm -rf examples/dist && cp -r dist examples/dist",
     "preview": "vite preview",
     "test": "vitest",
     "e2e-test": "playwright test",
