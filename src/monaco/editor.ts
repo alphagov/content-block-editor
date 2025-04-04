@@ -1,4 +1,4 @@
-import 'monaco-editor/esm/vs/editor/contrib/hover/browser/hoverContribution.js';
+import "monaco-editor/esm/vs/editor/contrib/hover/browser/hoverContribution.js";
 
 import { languages, editor } from "monaco-editor/esm/vs/editor/editor.api";
 import tokens from "./tokens.ts";
