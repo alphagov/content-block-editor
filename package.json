@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
+    "@golevelup/ts-vitest": "^0.5.2",
     "@playwright/test": "^1.51.1",
     "eslint": "^9.23.0",
     "globals": "^16.0.0",
