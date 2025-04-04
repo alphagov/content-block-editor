@@ -10,6 +10,11 @@ export default defineConfig({
       name: "Content Block Editor",
       fileName: "content-block-editor",
     },
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true
+      }
+    },
   },
   css: {
     preprocessorOptions: {
