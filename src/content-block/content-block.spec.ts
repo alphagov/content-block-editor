@@ -105,4 +105,21 @@ describe("ContentBlock", () => {
       expect(contentBlock.digDetails(["boo", "bar"])).toEqual(undefined);
     });
   });
+
+  describe("embedCode", () => {
+    const contentID = "0ff7707d-682c-4b1f-869a-c626681fbd6c";
+    const contentBlock = new ContentBlock("", contentID, {}, "something");
+
+    test("it returns embed code for a block", () => {
+      expect(contentBlock.embedCode()).toEqual(
+        `{{embed:something:${contentID}}}`,
+      );
+    });
+
+    test("it supports a suffix", () => {
+      expect(contentBlock.embedCode("/foo/bar")).toEqual(
+        `{{embed:something:${contentID}/foo/bar}}`,
+      );
+    });
+  });
 });

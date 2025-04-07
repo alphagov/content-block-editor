@@ -17,6 +17,10 @@ export class ContentBlock {
       .join(" ");
   }
 
+  embedCode = (suffix = ""): string => {
+    return `{{embed:${this.schemaName}:${this.contentId}${suffix}}}`;
+  };
+
   digDetails = (keys: Array<string>): string => {
     let value: NestedRecord | string = this.details;
     keys.forEach(function (key) {
