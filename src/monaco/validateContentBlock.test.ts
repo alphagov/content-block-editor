@@ -1,4 +1,4 @@
-import {beforeEach, describe, test, vi, expect, afterEach} from "vitest";
+import { beforeEach, describe, test, vi, expect, afterEach } from "vitest";
 import { createMock } from "@golevelup/ts-vitest";
 import type { IRange } from "monaco-editor/esm/vs/editor/editor.api";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
@@ -30,8 +30,8 @@ describe("validateContentBlock", () => {
   });
 
   afterEach(() => {
-    editorSpy.mockReset()
-  })
+    editorSpy.mockReset();
+  });
 
   test("it adds errors when a content block is invalid", () => {
     mockFindByContentId.mockImplementation(() => null);
@@ -43,13 +43,13 @@ describe("validateContentBlock", () => {
     expect(editorSpy.mock.calls[0][1]).toEqual("owner");
 
     const markers = editorSpy.mock.calls[0][2];
-    expect(markers.length).toEqual(1)
+    expect(markers.length).toEqual(1);
 
-    expect(markers[0].message).toEqual("Invalid embed code")
-    expect(markers[0].startLineNumber).toEqual(2)
-    expect(markers[0].endLineNumber).toEqual(2)
-    expect(markers[0].startColumn).toEqual(39)
-    expect(markers[0].endColumn).toEqual(106)
+    expect(markers[0].message).toEqual("Invalid embed code");
+    expect(markers[0].startLineNumber).toEqual(2);
+    expect(markers[0].endLineNumber).toEqual(2);
+    expect(markers[0].startColumn).toEqual(39);
+    expect(markers[0].endColumn).toEqual(106);
   });
 
   test("it does not add errors when a content block is valid", () => {
@@ -62,6 +62,6 @@ describe("validateContentBlock", () => {
     expect(editorSpy.mock.calls[0][1]).toEqual("owner");
 
     const markers = editorSpy.mock.calls[0][2];
-    expect(markers.length).toEqual(0)
+    expect(markers.length).toEqual(0);
   });
 });

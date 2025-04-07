@@ -110,4 +110,20 @@ test.describe("Editor Container", () => {
     await expect(page.getByText("Content Block: Pension")).toBeVisible();
     await expect(page.getByText("£133.42")).toBeVisible();
   });
+
+  test("it shows an error if the embed code is invalid", async ({ page }) => {
+    const monacoEditor = page.locator(".monaco-editor");
+    await monacoEditor.click();
+
+    const embedCode =
+      "{{embed:content_block_pension:d7a92f82-9898-4b35-a641-0e94ee4b1875/rates/rate-1/amount}}";
+
+    await page.keyboard.type(embedCode);
+
+    await page.waitForSelector(".squiggly-error");
+
+    await page.getByText(embedCode).hover();
+
+    await expect(page.getByText("Invalid embed code")).toBeVisible();
+  });
 });

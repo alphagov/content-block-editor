@@ -5,6 +5,7 @@ import tokens from "./tokens.ts";
 import theme from "./theme.ts";
 import hoverProvider from "./hoverProvider.ts";
 import variables from "../variables.module.scss";
+import validateContentBlock from "./validateContentBlock.ts";
 
 const themeName = "content-block-editor";
 const languageId = "govspeak";
@@ -43,7 +44,10 @@ const createEditor = (
     wordWrap: "on",
   });
 
+  validateContentBlock(monacoEditor.getModel()!);
+
   monacoEditor.onDidChangeModelContent(() => {
+    validateContentBlock(monacoEditor.getModel()!);
     textarea.value = <string>monacoEditor?.getValue();
   });
 
