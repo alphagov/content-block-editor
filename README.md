@@ -46,7 +46,7 @@ In future, we'd like to:
 
 - [ ] Add contextual information (using [`registerInlayHintsProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerInlayHintsProvider.html))
 - [x] Add information about a block on hover (using [`registerHoverProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerHoverProvider.html))
-- [ ] Highlight invalid / not found blocks
+- [x] Highlight invalid / not found blocks
 - [ ] Add autocompletion (using [`registerCompletionItemProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerCompletionItemProvider.html))
 
 Additionally, we can quite easily provide Markdown highlighting using [see the Markdown example here](https://microsoft.github.io/monaco-editor/monarch.html),
