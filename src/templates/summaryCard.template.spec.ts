@@ -63,7 +63,7 @@ describe("summaryCardTemplate", () => {
     );
   });
 
-  test("it returns null when a content block is not a pension", () => {
+  test("it returns undefined when a content block is not a pension", () => {
     const content_block = new ContentBlock(
       "Some email",
       "52037188-8277-4998-a349-7d25ae7f1dff",
@@ -71,6 +71,6 @@ describe("summaryCardTemplate", () => {
       "content_block_email_address",
     );
 
-    expect(summaryCardTemplate(content_block)).toBeNull;
+    expect(summaryCardTemplate(content_block)).toBeUndefined();
   });
 });

@@ -75,7 +75,7 @@ describe("ContentBlockBrowser", () => {
     new ContentBlockBrowser(wrapper, editor);
 
     const browser = document.querySelector(".content-block-browser");
-    expect(browser).not.toBeNull;
+    expect(browser).not.toBeNull();
 
     const content = browser?.querySelector(
       ".gem-c-modal-dialogue__content",
