@@ -89,7 +89,9 @@ test.describe("Editor Container", () => {
     await element.hover();
 
     await expect(page.getByText("Content Block: Pension")).toBeVisible();
-    await expect(page.getByText("Some Pension")).toBeVisible();
+    await expect(
+      page.getByRole("paragraph").filter({ hasText: "Some Pension" }),
+    ).toBeVisible();
   });
 
   test("it shows information about a block with a reference on hover", async ({
@@ -108,7 +110,9 @@ test.describe("Editor Container", () => {
     await element.hover();
 
     await expect(page.getByText("Content Block: Pension")).toBeVisible();
-    await expect(page.getByText("£133.42")).toBeVisible();
+    await expect(
+      page.getByRole("paragraph").filter({ hasText: "£133.42" }),
+    ).toBeVisible();
   });
 
   test("it shows an error if the embed code is invalid", async ({ page }) => {
