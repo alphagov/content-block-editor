@@ -10,6 +10,18 @@ export type RawContentBlockData = Record<string, unknown> & {
   schema_name: string;
 };
 
+export type PensionRate = {
+  title: string;
+  amount: string;
+  frequency: string;
+  description: string;
+};
+
+export type PensionDetails = {
+  description: string;
+  rates: Record<string, PensionRate>;
+};
+
 declare global {
   interface Window {
     ContentBlockEditor: typeof ContentBlockEditor;

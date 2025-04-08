@@ -1,4 +1,9 @@
-import { NestedRecord, RawContentBlockData } from "../@types";
+import { NestedRecord, PensionDetails, RawContentBlockData } from "../@types";
+
+export type PensionContentBlock = ContentBlock & {
+  details: PensionDetails;
+  schema_name: "content_block_pension";
+};
 
 export class ContentBlock {
   constructor(
