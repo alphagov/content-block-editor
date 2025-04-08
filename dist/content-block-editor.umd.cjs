@@ -683,7 +683,7 @@ ${a}`}]}}}}return null},hle={fontFamily:'"GDS Transport", arial, sans-serif'},$3
             </div>
         `}},mle=`
   <button
-    class="gem-c-button govuk-button"
+    class="gem-c-button govuk-button content-block-editor__toggle-button"
     type="submit"
     data-toggle="modal"
     data-target="modal-default"
