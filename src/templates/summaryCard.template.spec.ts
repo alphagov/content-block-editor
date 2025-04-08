@@ -73,4 +73,17 @@ describe("summaryCardTemplate", () => {
 
     expect(summaryCardTemplate(content_block)).toBeUndefined();
   });
+
+  test("it returns undefined when a pension does not have any rates", () => {
+    const content_block = new ContentBlock(
+      "Some Pension",
+      "52037188-8277-4998-a349-7d25ae7f1dff",
+      {
+        description: "some description",
+      },
+      "content_block_pension",
+    );
+
+    expect(summaryCardTemplate(content_block)).toBeUndefined();
+  });
 });
