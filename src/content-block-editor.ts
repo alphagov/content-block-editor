@@ -3,6 +3,7 @@ import "../scss/base.scss";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { createEditor } from "./monaco/editor.ts";
+import { ContentBlockBrowser } from "./content-block/content-block-browser.ts";
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -22,6 +23,7 @@ export class ContentBlockEditor {
     this.module = this.initializeModule(element);
     this.container = this.createContainer();
     this.editor = createEditor(this.container, this.module);
+    new ContentBlockBrowser(this.module, this.editor);
 
     element.classList.add("govuk-visually-hidden");
   }

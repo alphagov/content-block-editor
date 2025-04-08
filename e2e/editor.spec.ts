@@ -126,4 +126,22 @@ test.describe("Editor Container", () => {
 
     await expect(page.getByText("Invalid embed code")).toBeVisible();
   });
+
+  test("it allows a content block to be inserted", async ({ page }) => {
+    const monacoEditor = page.locator(".monaco-editor");
+    await monacoEditor.click();
+
+    const embedCode =
+      "{{embed:content_block_pension:bb00b32e-738c-478c-8b18-ddd8f3c62a21/rates/rate-1/amount}}";
+
+    await page.keyboard.type("Hello, this is an embed code: ");
+
+    await page.getByRole("button", { name: "Insert content block" }).click();
+
+    await page.locator(`[data-embed-code='${embedCode}']`).click();
+
+    await expect(
+      page.getByText(`Hello, this is an embed code: ${embedCode}`),
+    ).toBeVisible();
+  });
 });
