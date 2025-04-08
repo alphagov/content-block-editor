@@ -52,7 +52,6 @@ export class ModalDialogue {
 
     this.html.classList.add("gem-o-template--modal");
     this.body.classList.add("gem-o-template__body--modal");
-    this.body.classList.add("gem-o-template__body--blur");
     this.focusedElementBeforeOpen = document.activeElement as HTMLElement;
     this.module.style.display = "block";
     this.dialogBox.focus();
