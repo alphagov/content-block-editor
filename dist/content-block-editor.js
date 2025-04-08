@@ -83685,7 +83685,7 @@ class Ele {
     ), this.closeButton && this.closeButton.addEventListener("click", this.module.close);
   }
   handleOpen(e) {
-    e && e.preventDefault(), this.html.classList.add("gem-o-template--modal"), this.body.classList.add("gem-o-template__body--modal"), this.body.classList.add("gem-o-template__body--blur"), this.focusedElementBeforeOpen = document.activeElement, this.module.style.display = "block", this.dialogBox.focus(), document.addEventListener("keydown", this.module.boundKeyDown, !0);
+    e && e.preventDefault(), this.html.classList.add("gem-o-template--modal"), this.body.classList.add("gem-o-template__body--modal"), this.focusedElementBeforeOpen = document.activeElement, this.module.style.display = "block", this.dialogBox.focus(), document.addEventListener("keydown", this.module.boundKeyDown, !0);
   }
   handleClose(e) {
     var t;
