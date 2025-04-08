@@ -670,18 +670,18 @@ ${a}`}]}}}}return null},hle={fontFamily:'"GDS Transport", arial, sans-serif'},$3
       <dd class="govuk-summary-list__actions">
         <a class="govuk-link" href="#" data-embed-code="${s.embedCode(`/rates/${e}/amount`)}">Insert<span class="govuk-visually-hidden">${t.title}</span></a>
       </dd>
-    </div>`,gle=s=>{if(s.schemaName=="content_block_pension"){const e=s.details;return`
+    </div>`,gle=s=>{if(s.schemaName=="content_block_pension"){const t=s.details.rates;return t?`
             <div class="govuk-summary-card">
               <div class="govuk-summary-card__title-wrapper">
                 <h2 class="govuk-summary-card__title">${s.title}</h2>
               </div>
               <div class="govuk-summary-card__content">
                 <dl class="govuk-summary-list">
-                  ${Object.keys(e.rates).map(t=>fle(s,t,e.rates[t]))}
+                  ${Object.keys(t).map(i=>fle(s,i,t[i]))}
                 </dl>
               </div>
             </div>
-        `}},mle=`
+        `:void 0}},mle=`
   <button
     class="gem-c-button govuk-button content-block-editor__toggle-button"
     type="submit"

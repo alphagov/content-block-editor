@@ -83602,19 +83602,19 @@ ${a}` }
       </dd>
     </div>`, xle = (s) => {
   if (s.schemaName == "content_block_pension") {
-    const e = s.details;
-    return `
+    const t = s.details.rates;
+    return t ? `
             <div class="govuk-summary-card">
               <div class="govuk-summary-card__title-wrapper">
                 <h2 class="govuk-summary-card__title">${s.title}</h2>
               </div>
               <div class="govuk-summary-card__content">
                 <dl class="govuk-summary-list">
-                  ${Object.keys(e.rates).map((t) => kle(s, t, e.rates[t]))}
+                  ${Object.keys(t).map((i) => kle(s, i, t[i]))}
                 </dl>
               </div>
             </div>
-        `;
+        ` : void 0;
   }
 }, Dle = `
   <button
