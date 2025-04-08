@@ -54,3 +54,7 @@ but we need to test the basic principle with users first.
 
 A (very rough) prototype containing much of these features can be found in the [Prototype directory](./prototype). The
 most interesting stuff can be found in the [monaco.js file](./prototype/js/monaco.js)
+
+## Demo
+
+You can see a [demo of the work so far here](https://alphagov.github.io/content-block-editor/)
