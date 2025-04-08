@@ -6,6 +6,7 @@ describe("ContentBlockEditor", () => {
   let module: HTMLTextAreaElement;
 
   beforeEach(() => {
+    window.contentBlocks = []
     window.ContentBlockEditor = ContentBlockEditor;
     window.document.body.innerHTML =
       '<textarea class="my-selector"></textarea>';
