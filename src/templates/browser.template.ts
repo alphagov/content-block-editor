@@ -1,6 +1,6 @@
 export const browserTemplate = `
   <button
-    class="gem-c-button govuk-button"
+    class="gem-c-button govuk-button content-block-editor__toggle-button"
     type="submit"
     data-toggle="modal"
     data-target="modal-default"
