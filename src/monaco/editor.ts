@@ -37,6 +37,7 @@ const createEditor = (
     lineDecorationsWidth: 5,
     lineNumbersMinChars: 0,
     theme: themeName,
+    scrollBeyondLastLine: false,
     padding: {
       top: 5,
       bottom: 5,
