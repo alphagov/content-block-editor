@@ -1,4 +1,6 @@
-@import "govuk/base";
+@import "govuk/settings/index";
+@import "govuk/helpers/index";
+
 @import "govuk/components/textarea";
 
 @import "modal_dialogue";
