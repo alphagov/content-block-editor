@@ -83576,6 +83576,11 @@ ${a}` }
     lineDecorationsWidth: 5,
     lineNumbersMinChars: 0,
     theme: Z3,
+    scrollBeyondLastLine: !1,
+    overviewRulerLanes: 0,
+    scrollbar: {
+      verticalScrollbarSize: 8
+    },
     padding: {
       top: 5,
       bottom: 5
