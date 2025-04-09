@@ -14,3 +14,15 @@
     }
   }
 }
+
+.monaco-editor {
+  .monaco-scrollable-element {
+    .scrollbar.vertical {
+      padding: 1px;
+      .slider {
+        border-radius: 8px;
+        color: #7b7b7b;
+      }
+    }
+  }
+}

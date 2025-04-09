@@ -39,6 +39,9 @@ const createEditor = (
     theme: themeName,
     scrollBeyondLastLine: false,
     overviewRulerLanes: 0,
+    scrollbar: {
+      verticalScrollbarSize: 8
+    },
     padding: {
       top: 5,
       bottom: 5,
