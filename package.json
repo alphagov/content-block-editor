@@ -1,6 +1,6 @@
 {
   "name": "content-block-editor",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "type": "module",
   "main": "./dist/content-block-editor.umd.cjs",
   "module": "./dist/content-block-editor.js",
