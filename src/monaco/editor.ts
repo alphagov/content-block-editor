@@ -40,7 +40,7 @@ const createEditor = (
     scrollBeyondLastLine: false,
     overviewRulerLanes: 0,
     scrollbar: {
-      verticalScrollbarSize: 8
+      verticalScrollbarSize: 8,
     },
     padding: {
       top: 5,
