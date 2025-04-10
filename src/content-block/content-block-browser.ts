@@ -1,7 +1,6 @@
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
 import { ContentBlock } from "./content-block.ts";
-import { summaryCardTemplate } from "../templates/summaryCard.template.ts";
 import { browserTemplate } from "../templates/browser.template.ts";
 import { ModalDialogue } from "../modal-dialogue";
 
@@ -17,25 +16,11 @@ export class ContentBlockBrowser {
     this.contentBlocks = ContentBlock.all();
     this.wrapper = document.createElement("div");
     this.wrapper.classList.add("content-block-browser");
-    this.wrapper.innerHTML = browserTemplate;
+    this.wrapper.innerHTML = browserTemplate();
 
-    this.addSummaryCards();
     this.module.before(this.wrapper);
     this.modal = this.activateModal();
     this.activateInserts();
-  }
-
-  addSummaryCards() {
-    const dialogueContent = this.wrapper.querySelector(
-      ".gem-c-modal-dialogue__content",
-    )!;
-
-    this.contentBlocks.forEach((block) => {
-      const summaryCard = summaryCardTemplate(block);
-      if (summaryCard) {
-        dialogueContent.innerHTML += summaryCard;
-      }
-    });
   }
 
   activateModal() {

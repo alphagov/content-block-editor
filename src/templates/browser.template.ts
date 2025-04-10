@@ -1,4 +1,7 @@
-export const browserTemplate = `
+import {ContentBlock} from "../content-block/content-block.ts";
+import {summaryCardTemplate} from "./summaryCard.template.ts";
+
+export const browserTemplate = () => `
   <div
     id="modal-default"
     data-module="modal-dialogue"
@@ -28,6 +31,7 @@ export const browserTemplate = `
       </div>
       <div class="gem-c-modal-dialogue__content">
         <h2 class="govuk-heading-l">Insert content block</h2>
+        ${ContentBlock.all().map((block) => summaryCardTemplate(block))}
       </div>
       <button
         class="gem-c-modal-dialogue__close-button"
