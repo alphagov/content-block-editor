@@ -5,6 +5,8 @@ import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { createEditor } from "./monaco/editor.ts";
 import { ContentBlockBrowser } from "./content-block/content-block-browser.ts";
 
+self.editors = {}
+
 self.MonacoEnvironment = {
   getWorker() {
     return new editorWorker();
@@ -27,6 +29,8 @@ export class ContentBlockEditor {
     new ContentBlockBrowser(this.module, this.editor);
 
     element.classList.add("govuk-visually-hidden");
+
+    self.editors[this.editor.getId()] = this.editor
   }
 
   initializeModule = (element: Element): HTMLTextAreaElement => {

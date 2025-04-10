@@ -1,5 +1,6 @@
 import { ContentBlockEditor } from "../content-block-editor.ts";
 import { ContentBlock } from "../content-block/content-block.ts";
+import type { editor } from "monaco-editor/esm/vs/editor/editor.api";
 
 export type NestedRecord = { [k: string]: string | NestedRecord };
 
@@ -26,5 +27,6 @@ declare global {
   interface Window {
     ContentBlockEditor: typeof ContentBlockEditor;
     contentBlocks: Array<ContentBlock> | undefined;
+    editors: Record<string, editor.IStandaloneCodeEditor>;
   }
 }

@@ -49,6 +49,13 @@ describe("ContentBlockEditor", () => {
     expect(button.innerText).to.eq("Insert Content Block")
   });
 
+  test("it adds a reference to the editor to the global object", () => {
+    const contentBlockEditor = new window.ContentBlockEditor(module);
+    const editor = contentBlockEditor.editor
+
+    expect(window.editors[editor.getId()]).toEqual(editor)
+  })
+
   test("it throws an error if the module is not a textarea", () => {
     window.document.body.innerHTML = '<div class="my-selector"></div>';
 
