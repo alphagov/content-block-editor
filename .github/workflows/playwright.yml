@@ -4,6 +4,7 @@ on: workflow_call
 
 jobs:
   test:
+    name: Run Tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:

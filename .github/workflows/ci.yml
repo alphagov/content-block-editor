@@ -27,12 +27,14 @@ jobs:
     uses: ./.github/workflows/prettier.yml
 
   run-playwright-tests:
+    name: Playwright
     needs:
       - lint
       - prettier
     uses: ./.github/workflows/playwright.yml
 
   vitest:
+    name: Vitest
     needs:
       - lint
       - prettier
