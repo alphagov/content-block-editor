@@ -23,6 +23,7 @@ export class ContentBlockEditor {
     this.module = this.initializeModule(element);
     this.container = this.createContainer();
     this.editor = createEditor(this.container, this.module);
+    this.createToolbar()
     new ContentBlockBrowser(this.module, this.editor);
 
     element.classList.add("govuk-visually-hidden");
@@ -35,6 +36,17 @@ export class ContentBlockEditor {
       throw new Error(`The module ${element.outerHTML} is not a textarea`);
     }
   };
+
+  createToolbar() {
+    const insertButton = document.createElement("button")
+    insertButton.classList.add("gem-c-button", "govuk-button", "content-block-editor__toggle-button")
+    insertButton.dataset.toggle = "modal"
+    insertButton.dataset.target = "modal-default"
+    insertButton.dataset.editorId = this.editor.getId()
+    insertButton.innerText = "Insert Content Block"
+
+    this.container.before(insertButton)
+  }
 
   createContainer(): HTMLDivElement {
     const styles = window.getComputedStyle(this.module);

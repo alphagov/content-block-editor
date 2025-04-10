@@ -30,6 +30,25 @@ describe("ContentBlockEditor", () => {
     expect(classes).to.include("govuk-visually-hidden");
   });
 
+  test("it creates a button to insert a content block", () => {
+    const contentBlockEditor = new window.ContentBlockEditor(module);
+
+    const button = document.querySelector(".content-block-editor__toggle-button") as HTMLElement
+
+    expect(button).not.toBeNull();
+
+    const classes =  Array.from(button.classList)
+
+    expect(classes).to.include("gem-c-button")
+    expect(classes).to.include("govuk-button")
+
+    expect(button.dataset.toggle).to.eq("modal")
+    expect(button.dataset.target).to.eq("modal-default")
+    expect(button.dataset.editorId).to.eq(contentBlockEditor.editor.getId())
+
+    expect(button.innerText).to.eq("Insert Content Block")
+  });
+
   test("it throws an error if the module is not a textarea", () => {
     window.document.body.innerHTML = '<div class="my-selector"></div>';
 

@@ -1,12 +1,4 @@
 export const browserTemplate = `
-  <button
-    class="gem-c-button govuk-button content-block-editor__toggle-button"
-    type="submit"
-    data-toggle="modal"
-    data-target="modal-default"
-  >
-    Insert Content Block
-  </button>
   <div
     id="modal-default"
     data-module="modal-dialogue"
