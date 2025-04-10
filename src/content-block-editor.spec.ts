@@ -54,8 +54,8 @@ describe("ContentBlockEditor", () => {
     const button = document.querySelector(
       ".content-block-editor__toggle-button",
     ) as HTMLElement;
-    const event = new window.Event("click")
-    const eventSpy = vi.spyOn(event, "preventDefault")
+    const event = new window.Event("click");
+    const eventSpy = vi.spyOn(event, "preventDefault");
 
     button.dispatchEvent(event);
 
