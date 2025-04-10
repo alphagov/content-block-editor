@@ -1,24 +1,16 @@
-import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-
-import { ContentBlock } from "./content-block.ts";
 import { browserTemplate } from "../templates/browser.template.ts";
 import { ModalDialogue } from "../modal-dialogue";
 
 export class ContentBlockBrowser {
-  contentBlocks: Array<ContentBlock>;
   wrapper: HTMLDivElement;
   modal: ModalDialogue;
 
-  constructor(
-    private readonly module: HTMLElement,
-    private readonly editor: editor.IStandaloneCodeEditor,
-  ) {
-    this.contentBlocks = ContentBlock.all();
+  constructor() {
     this.wrapper = document.createElement("div");
     this.wrapper.classList.add("content-block-browser");
     this.wrapper.innerHTML = browserTemplate();
 
-    this.module.before(this.wrapper);
+    window.document.body.append(this.wrapper);
     this.modal = this.activateModal();
     this.activateInserts();
   }
@@ -45,8 +37,9 @@ export class ContentBlockBrowser {
 
     const link = event.target as HTMLAnchorElement;
     const text = link.dataset.embedCode!;
+    const editor = Object.values(self.editors)[0]
 
-    const selection = this.editor.getSelection();
+    const selection = editor.getSelection();
     const id = { major: 1, minor: 1 };
     const op = {
       identifier: id,
@@ -59,7 +52,7 @@ export class ContentBlockBrowser {
       text,
       forceMoveMarkers: true,
     };
-    this.editor.executeEdits("content-block-browser", [op]);
+    editor.executeEdits("content-block-browser", [op]);
     this.modal.module.close();
   }
 }

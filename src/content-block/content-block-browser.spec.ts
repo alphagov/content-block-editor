@@ -65,6 +65,8 @@ describe("ContentBlockBrowser", () => {
     window.document.body.append(wrapper);
 
     MockModalDialogue.prototype.module = mockModule;
+
+    window.editors = { editor1: editor }
   });
 
   afterEach(() => {
@@ -72,7 +74,7 @@ describe("ContentBlockBrowser", () => {
   });
 
   test("adds a modal and summary list to the template", () => {
-    new ContentBlockBrowser(wrapper, editor);
+    new ContentBlockBrowser();
 
     const browser = document.querySelector(".content-block-browser");
     expect(browser).not.toBeNull();
@@ -89,7 +91,7 @@ describe("ContentBlockBrowser", () => {
   });
 
   test("it executes edits on the editor when a block is clicked", () => {
-    new ContentBlockBrowser(wrapper, editor);
+    new ContentBlockBrowser();
 
     const embedLink = document.querySelector("a[data-embed-code]")!;
     embedLink.dispatchEvent(new window.Event("click"));
@@ -112,7 +114,7 @@ describe("ContentBlockBrowser", () => {
   });
 
   test("it closes the modal after inserting a block", () => {
-    new ContentBlockBrowser(wrapper, editor);
+    new ContentBlockBrowser();
 
     const embedLink = document.querySelector("a[data-embed-code]")!;
     embedLink.dispatchEvent(new window.Event("click"));

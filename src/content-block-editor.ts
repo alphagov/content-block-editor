@@ -13,6 +13,8 @@ self.MonacoEnvironment = {
   },
 };
 
+self.contentBlockBrowser = new ContentBlockBrowser();
+
 export class ContentBlockEditor {
   module: HTMLTextAreaElement;
   container: HTMLDivElement;
@@ -26,7 +28,6 @@ export class ContentBlockEditor {
     this.container = this.createContainer();
     this.editor = createEditor(this.container, this.module);
     this.createToolbar()
-    new ContentBlockBrowser(this.module, this.editor);
 
     element.classList.add("govuk-visually-hidden");
 
