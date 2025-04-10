@@ -154,8 +154,10 @@ test.describe("Editor Container", () => {
       await page.goto("/two-editors");
     });
 
-    test("it allows content blocks to be inserted in each editor", async ({ page }) => {
-      const locators = ["#editor1", "#editor2"]
+    test("it allows content blocks to be inserted in each editor", async ({
+      page,
+    }) => {
+      const locators = ["#editor1", "#editor2"];
 
       for (const locator of locators) {
         const monacoEditor = page.locator(locator).locator(".monaco-editor");
@@ -166,14 +168,19 @@ test.describe("Editor Container", () => {
 
         await page.keyboard.type("Hello, this is an embed code: ");
 
-        await page.locator(locator).getByRole("button", { name: "Insert content block" }).click();
+        await page
+          .locator(locator)
+          .getByRole("button", { name: "Insert content block" })
+          .click();
 
         await page.locator(`[data-embed-code='${embedCode}']`).click();
 
         await expect(
-          page.locator(locator).getByText(`Hello, this is an embed code: ${embedCode}`),
+          page
+            .locator(locator)
+            .getByText(`Hello, this is an embed code: ${embedCode}`),
         ).toBeVisible();
       }
     });
-  })
+  });
 });

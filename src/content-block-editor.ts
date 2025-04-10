@@ -5,7 +5,7 @@ import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { createEditor } from "./monaco/editor.ts";
 import { ContentBlockBrowser } from "./content-block/content-block-browser.ts";
 
-self.editors = {}
+self.editors = {};
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -27,11 +27,11 @@ export class ContentBlockEditor {
     this.module = this.initializeModule(element);
     this.container = this.createContainer();
     this.editor = createEditor(this.container, this.module);
-    this.createToolbar()
+    this.createToolbar();
 
     element.classList.add("govuk-visually-hidden");
 
-    self.editors[this.editor.getId()] = this.editor
+    self.editors[this.editor.getId()] = this.editor;
   }
 
   initializeModule = (element: Element): HTMLTextAreaElement => {
@@ -43,17 +43,21 @@ export class ContentBlockEditor {
   };
 
   createToolbar() {
-    const insertButton = document.createElement("button")
-    insertButton.classList.add("gem-c-button", "govuk-button", "content-block-editor__toggle-button")
-    insertButton.innerText = "Insert Content Block"
+    const insertButton = document.createElement("button");
+    insertButton.classList.add(
+      "gem-c-button",
+      "govuk-button",
+      "content-block-editor__toggle-button",
+    );
+    insertButton.innerText = "Insert Content Block";
 
     insertButton.addEventListener("click", () => {
-      const modal = self.contentBlockBrowser.modal.module
-      modal.open()
-      modal.dataset.editorId = this.editor.getId()
-    })
+      const modal = self.contentBlockBrowser.modal.module;
+      modal.open();
+      modal.dataset.editorId = this.editor.getId();
+    });
 
-    this.container.before(insertButton)
+    this.container.before(insertButton);
   }
 
   createContainer(): HTMLDivElement {

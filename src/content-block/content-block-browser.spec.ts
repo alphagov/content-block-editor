@@ -24,8 +24,8 @@ describe("ContentBlockBrowser", () => {
   const mockModule = createMock<ModalDialogueModule>({
     close: vi.fn(),
     dataset: {
-      editorId: "editor1"
-    }
+      editorId: "editor1",
+    },
   });
 
   const rate = {
@@ -69,7 +69,7 @@ describe("ContentBlockBrowser", () => {
 
     MockModalDialogue.prototype.module = mockModule;
 
-    window.editors = { editor1: editor }
+    window.editors = { editor1: editor };
   });
 
   afterEach(() => {

@@ -32,36 +32,42 @@ describe("ContentBlockEditor", () => {
   test("it creates a button to insert a content block", () => {
     new window.ContentBlockEditor(module);
 
-    const button = document.querySelector(".content-block-editor__toggle-button") as HTMLElement
+    const button = document.querySelector(
+      ".content-block-editor__toggle-button",
+    ) as HTMLElement;
 
     expect(button).not.toBeNull();
 
-    const classes =  Array.from(button.classList)
+    const classes = Array.from(button.classList);
 
-    expect(classes).to.include("gem-c-button")
-    expect(classes).to.include("govuk-button")
+    expect(classes).to.include("gem-c-button");
+    expect(classes).to.include("govuk-button");
 
-    expect(button.innerText).to.eq("Insert Content Block")
+    expect(button.innerText).to.eq("Insert Content Block");
   });
 
   test("it opens the modal window when the button is clicked", () => {
-    const modalSpy = vi.spyOn(self.contentBlockBrowser.modal.module, "open")
+    const modalSpy = vi.spyOn(self.contentBlockBrowser.modal.module, "open");
 
     const contentBlockEditor = new window.ContentBlockEditor(module);
 
-    const button = document.querySelector(".content-block-editor__toggle-button") as HTMLElement
-    button.dispatchEvent(new window.Event("click"))
+    const button = document.querySelector(
+      ".content-block-editor__toggle-button",
+    ) as HTMLElement;
+    button.dispatchEvent(new window.Event("click"));
 
-    expect(modalSpy).toHaveBeenCalledOnce()
-    expect(self.contentBlockBrowser.modal.module.dataset.editorId).toEqual(contentBlockEditor.editor.getId())
-  })
+    expect(modalSpy).toHaveBeenCalledOnce();
+    expect(self.contentBlockBrowser.modal.module.dataset.editorId).toEqual(
+      contentBlockEditor.editor.getId(),
+    );
+  });
 
   test("it adds a reference to the editor to the global object", () => {
     const contentBlockEditor = new window.ContentBlockEditor(module);
-    const editor = contentBlockEditor.editor
+    const editor = contentBlockEditor.editor;
 
-    expect(window.editors[editor.getId()]).toEqual(editor)
-  })
+    expect(window.editors[editor.getId()]).toEqual(editor);
+  });
 
   test("it throws an error if the module is not a textarea", () => {
     window.document.body.innerHTML = '<div class="my-selector"></div>';

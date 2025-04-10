@@ -1,5 +1,5 @@
-import {ContentBlock} from "../content-block/content-block.ts";
-import {summaryCardTemplate} from "./summaryCard.template.ts";
+import { ContentBlock } from "../content-block/content-block.ts";
+import { summaryCardTemplate } from "./summaryCard.template.ts";
 
 export const browserTemplate = () => `
   <div
