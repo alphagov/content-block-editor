@@ -83615,7 +83615,9 @@ ${a}` }
               </div>
               <div class="govuk-summary-card__content">
                 <dl class="govuk-summary-list">
-                  ${Object.keys(t).map((i) => kle(s, i, t[i]))}
+                  ${Object.keys(t).map(
+      (i) => kle(s, i, t[i])
+    ).join("")}
                 </dl>
               </div>
             </div>
@@ -83651,7 +83653,7 @@ ${a}` }
       </div>
       <div class="gem-c-modal-dialogue__content">
         <h2 class="govuk-heading-l">Insert content block</h2>
-        ${Df.all().map((s) => xle(s))}
+        ${Df.all().map((s) => xle(s)).join("")}
       </div>
       <button
         class="gem-c-modal-dialogue__close-button"

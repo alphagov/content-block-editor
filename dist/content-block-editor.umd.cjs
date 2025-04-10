@@ -677,7 +677,7 @@ ${a}`}]}}}}return null},hle={fontFamily:'"GDS Transport", arial, sans-serif'},$3
               </div>
               <div class="govuk-summary-card__content">
                 <dl class="govuk-summary-list">
-                  ${Object.keys(t).map(i=>fle(s,i,t[i]))}
+                  ${Object.keys(t).map(i=>fle(s,i,t[i])).join("")}
                 </dl>
               </div>
             </div>
@@ -711,7 +711,7 @@ ${a}`}]}}}}return null},hle={fontFamily:'"GDS Transport", arial, sans-serif'},$3
       </div>
       <div class="gem-c-modal-dialogue__content">
         <h2 class="govuk-heading-l">Insert content block</h2>
-        ${wf.all().map(s=>gle(s))}
+        ${wf.all().map(s=>gle(s)).join("")}
       </div>
       <button
         class="gem-c-modal-dialogue__close-button"
