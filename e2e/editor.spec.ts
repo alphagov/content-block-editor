@@ -148,4 +148,32 @@ test.describe("Editor Container", () => {
       page.getByText(`Hello, this is an embed code: ${embedCode}`),
     ).toBeVisible();
   });
+
+  test.describe("with multiple editors", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto("/two-editors");
+    });
+
+    test("it allows content blocks to be inserted in each editor", async ({ page }) => {
+      const locators = ["#editor1", "#editor2"]
+
+      for (const locator of locators) {
+        const monacoEditor = page.locator(locator).locator(".monaco-editor");
+        await monacoEditor.click();
+
+        const embedCode =
+          "{{embed:content_block_pension:bb00b32e-738c-478c-8b18-ddd8f3c62a21/rates/rate-1/amount}}";
+
+        await page.keyboard.type("Hello, this is an embed code: ");
+
+        await page.locator(locator).getByRole("button", { name: "Insert content block" }).click();
+
+        await page.locator(`[data-embed-code='${embedCode}']`).click();
+
+        await expect(
+          page.locator(locator).getByText(`Hello, this is an embed code: ${embedCode}`),
+        ).toBeVisible();
+      }
+    });
+  })
 });
