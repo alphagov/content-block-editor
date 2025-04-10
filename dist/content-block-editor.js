@@ -83490,7 +83490,7 @@ class Df {
     var e;
     if (!window.contentBlocks) {
       const t = JSON.parse(
-        ((e = window.document.querySelector("#content-blocks")) == null ? void 0 : e.textContent) || ""
+        ((e = window.document.querySelector("#content-blocks")) == null ? void 0 : e.textContent) || "[]"
       );
       window.contentBlocks = t.map(
         (i) => new Df(
@@ -83621,15 +83621,7 @@ ${a}` }
             </div>
         ` : void 0;
   }
-}, Dle = `
-  <button
-    class="gem-c-button govuk-button content-block-editor__toggle-button"
-    type="submit"
-    data-toggle="modal"
-    data-target="modal-default"
-  >
-    Insert Content Block
-  </button>
+}, Dle = () => `
   <div
     id="modal-default"
     data-module="modal-dialogue"
@@ -83659,6 +83651,7 @@ ${a}` }
       </div>
       <div class="gem-c-modal-dialogue__content">
         <h2 class="govuk-heading-l">Insert content block</h2>
+        ${Df.all().map((s) => xle(s))}
       </div>
       <button
         class="gem-c-modal-dialogue__close-button"
@@ -83711,20 +83704,10 @@ class Ele {
   }
 }
 class Ile {
-  constructor(e, t) {
-    rt(this, "contentBlocks");
+  constructor() {
     rt(this, "wrapper");
     rt(this, "modal");
-    this.module = e, this.editor = t, this.contentBlocks = Df.all(), this.wrapper = document.createElement("div"), this.wrapper.classList.add("content-block-browser"), this.wrapper.innerHTML = Dle, this.addSummaryCards(), this.module.before(this.wrapper), this.modal = this.activateModal(), this.activateInserts();
-  }
-  addSummaryCards() {
-    const e = this.wrapper.querySelector(
-      ".gem-c-modal-dialogue__content"
-    );
-    this.contentBlocks.forEach((t) => {
-      const i = xle(t);
-      i && (e.innerHTML += i);
-    });
+    this.wrapper = document.createElement("div"), this.wrapper.classList.add("content-block-browser"), this.wrapper.innerHTML = Dle(), window.document.body.append(this.wrapper), this.modal = this.activateModal(), this.activateInserts();
   }
   activateModal() {
     const e = this.wrapper.querySelector(
@@ -83741,25 +83724,30 @@ class Ile {
   }
   insertEmbed(e) {
     e.preventDefault();
-    const i = e.target.dataset.embedCode, n = this.editor.getSelection(), r = {
+    const i = e.target.dataset.embedCode, n = this.modal.module.dataset.editorId;
+    if (!n)
+      throw new Error("Cannot find editor!");
+    const o = self.editors[n], r = o.getSelection(), l = {
       identifier: { major: 1, minor: 1 },
       range: {
-        startLineNumber: (n == null ? void 0 : n.selectionStartLineNumber) || 1,
-        startColumn: (n == null ? void 0 : n.selectionStartColumn) || 1,
-        endLineNumber: (n == null ? void 0 : n.endLineNumber) || 1,
-        endColumn: (n == null ? void 0 : n.endColumn) || 1
+        startLineNumber: (r == null ? void 0 : r.selectionStartLineNumber) || 1,
+        startColumn: (r == null ? void 0 : r.selectionStartColumn) || 1,
+        endLineNumber: (r == null ? void 0 : r.endLineNumber) || 1,
+        endColumn: (r == null ? void 0 : r.endColumn) || 1
       },
       text: i,
       forceMoveMarkers: !0
     };
-    this.editor.executeEdits("content-block-browser", [r]), this.modal.module.close();
+    o.executeEdits("content-block-browser", [l]), this.modal.module.close();
   }
 }
+self.editors = {};
 self.MonacoEnvironment = {
   getWorker() {
     return new Q3();
   }
 };
+self.contentBlockBrowser = new Ile();
 class Nle {
   constructor(e) {
     rt(this, "module");
@@ -83772,7 +83760,18 @@ class Nle {
         return e;
       throw new Error(`The module ${e.outerHTML} is not a textarea`);
     });
-    this.module = this.initializeModule(e), this.container = this.createContainer(), this.editor = Lle(this.container, this.module), new Ile(this.module, this.editor), e.classList.add("govuk-visually-hidden");
+    this.module = this.initializeModule(e), this.container = this.createContainer(), this.editor = Lle(this.container, this.module), this.createToolbar(), e.classList.add("govuk-visually-hidden"), self.editors[this.editor.getId()] = this.editor;
+  }
+  createToolbar() {
+    const e = document.createElement("button");
+    e.classList.add(
+      "gem-c-button",
+      "govuk-button",
+      "content-block-editor__toggle-button"
+    ), e.innerText = "Insert Content Block", e.addEventListener("click", () => {
+      const t = self.contentBlockBrowser.modal.module;
+      t.open(), t.dataset.editorId = this.editor.getId();
+    }), this.container.before(e);
   }
   createContainer() {
     const e = window.getComputedStyle(this.module), t = this.module.dataset.editorHeight || e.height, i = document.createElement("div");
