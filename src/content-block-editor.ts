@@ -45,10 +45,13 @@ export class ContentBlockEditor {
   createToolbar() {
     const insertButton = document.createElement("button")
     insertButton.classList.add("gem-c-button", "govuk-button", "content-block-editor__toggle-button")
-    insertButton.dataset.toggle = "modal"
-    insertButton.dataset.target = "modal-default"
-    insertButton.dataset.editorId = this.editor.getId()
     insertButton.innerText = "Insert Content Block"
+
+    insertButton.addEventListener("click", () => {
+      const modal = self.contentBlockBrowser.modal.module
+      modal.open()
+      modal.dataset.editorId = this.editor.getId()
+    })
 
     this.container.before(insertButton)
   }

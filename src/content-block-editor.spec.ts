@@ -1,5 +1,4 @@
 import { expect, test, describe, beforeEach, vi } from "vitest";
-
 import { ContentBlockEditor } from "./content-block-editor.ts";
 
 describe("ContentBlockEditor", () => {
@@ -31,7 +30,7 @@ describe("ContentBlockEditor", () => {
   });
 
   test("it creates a button to insert a content block", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(module);
+    new window.ContentBlockEditor(module);
 
     const button = document.querySelector(".content-block-editor__toggle-button") as HTMLElement
 
@@ -42,12 +41,20 @@ describe("ContentBlockEditor", () => {
     expect(classes).to.include("gem-c-button")
     expect(classes).to.include("govuk-button")
 
-    expect(button.dataset.toggle).to.eq("modal")
-    expect(button.dataset.target).to.eq("modal-default")
-    expect(button.dataset.editorId).to.eq(contentBlockEditor.editor.getId())
-
     expect(button.innerText).to.eq("Insert Content Block")
   });
+
+  test("it opens the modal window when the button is clicked", () => {
+    const modalSpy = vi.spyOn(self.contentBlockBrowser.modal.module, "open")
+
+    const contentBlockEditor = new window.ContentBlockEditor(module);
+
+    const button = document.querySelector(".content-block-editor__toggle-button") as HTMLElement
+    button.dispatchEvent(new window.Event("click"))
+
+    expect(modalSpy).toHaveBeenCalledOnce()
+    expect(self.contentBlockBrowser.modal.module.dataset.editorId).toEqual(contentBlockEditor.editor.getId())
+  })
 
   test("it adds a reference to the editor to the global object", () => {
     const contentBlockEditor = new window.ContentBlockEditor(module);
