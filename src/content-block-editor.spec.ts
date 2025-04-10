@@ -54,8 +54,12 @@ describe("ContentBlockEditor", () => {
     const button = document.querySelector(
       ".content-block-editor__toggle-button",
     ) as HTMLElement;
-    button.dispatchEvent(new window.Event("click"));
+    const event = new window.Event("click")
+    const eventSpy = vi.spyOn(event, "preventDefault")
 
+    button.dispatchEvent(event);
+
+    expect(eventSpy).toHaveBeenCalledOnce();
     expect(modalSpy).toHaveBeenCalledOnce();
     expect(self.contentBlockBrowser.modal.module.dataset.editorId).toEqual(
       contentBlockEditor.editor.getId(),

@@ -51,7 +51,8 @@ export class ContentBlockEditor {
     );
     insertButton.innerText = "Insert Content Block";
 
-    insertButton.addEventListener("click", () => {
+    insertButton.addEventListener("click", (e: MouseEvent) => {
+      e.preventDefault();
       const modal = self.contentBlockBrowser.modal.module;
       modal.open();
       modal.dataset.editorId = this.editor.getId();
