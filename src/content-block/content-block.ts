@@ -42,7 +42,7 @@ export class ContentBlock {
   static all(): Array<ContentBlock> {
     if (!window.contentBlocks) {
       const json = JSON.parse(
-        window.document.querySelector("#content-blocks")?.textContent || "",
+        window.document.querySelector("#content-blocks")?.textContent || "[]",
       );
       window.contentBlocks = json.map(
         (item: RawContentBlockData) =>
