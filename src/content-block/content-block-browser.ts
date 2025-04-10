@@ -37,7 +37,13 @@ export class ContentBlockBrowser {
 
     const link = event.target as HTMLAnchorElement;
     const text = link.dataset.embedCode!;
-    const editor = Object.values(self.editors)[0]
+    const editorId = this.modal.module.dataset.editorId
+
+    if (!editorId) {
+      throw new Error("Cannot find editor!")
+    }
+
+    const editor = self.editors[editorId!]
 
     const selection = editor.getSelection();
     const id = { major: 1, minor: 1 };

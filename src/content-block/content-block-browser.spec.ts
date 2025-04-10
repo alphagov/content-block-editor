@@ -23,6 +23,9 @@ describe("ContentBlockBrowser", () => {
   const MockModalDialogue = ModalDialogue as MockedClass<typeof ModalDialogue>;
   const mockModule = createMock<ModalDialogueModule>({
     close: vi.fn(),
+    dataset: {
+      editorId: "editor1"
+    }
   });
 
   const rate = {
