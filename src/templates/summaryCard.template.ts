@@ -16,7 +16,11 @@ export const summaryCardTemplate = (contentBlock: ContentBlock) => {
               </div>
               <div class="govuk-summary-card__content">
                 <dl class="govuk-summary-list">
-                  ${Object.keys(rates).map((k) => summaryListItemTemplate(contentBlock, k, rates[k]))}
+                  ${Object.keys(rates)
+                    .map((k) =>
+                      summaryListItemTemplate(contentBlock, k, rates[k]),
+                    )
+                    .join("")}
                 </dl>
               </div>
             </div>

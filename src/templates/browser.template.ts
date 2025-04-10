@@ -31,7 +31,9 @@ export const browserTemplate = () => `
       </div>
       <div class="gem-c-modal-dialogue__content">
         <h2 class="govuk-heading-l">Insert content block</h2>
-        ${ContentBlock.all().map((block) => summaryCardTemplate(block))}
+        ${ContentBlock.all()
+          .map((block) => summaryCardTemplate(block))
+          .join("")}
       </div>
       <button
         class="gem-c-modal-dialogue__close-button"
