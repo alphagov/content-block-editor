@@ -83768,9 +83768,10 @@ class Nle {
       "gem-c-button",
       "govuk-button",
       "content-block-editor__toggle-button"
-    ), e.innerText = "Insert Content Block", e.addEventListener("click", () => {
-      const t = self.contentBlockBrowser.modal.module;
-      t.open(), t.dataset.editorId = this.editor.getId();
+    ), e.innerText = "Insert Content Block", e.addEventListener("click", (t) => {
+      t.preventDefault();
+      const i = self.contentBlockBrowser.modal.module;
+      i.open(), i.dataset.editorId = this.editor.getId();
     }), this.container.before(e);
   }
   createContainer() {
