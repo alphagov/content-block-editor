@@ -8,13 +8,13 @@ A prototype using [Monaco Editor](https://microsoft.github.io/monaco-editor/) to
 1. Install dependencies:
 
    ```bash
-   npm install
+   yarn install
    ```
 
 1. Run the development server:
 
    ```bash
-   npm run dev
+   yarn run dev
    ```
 
 1. Access the [Example editor](http://localhost:5173/)
@@ -23,13 +23,13 @@ A prototype using [Monaco Editor](https://microsoft.github.io/monaco-editor/) to
    ### Unit tests
 
    ```bash
-   npm run test
+   yarn run test
    ```
 
    ### E2E tests (using [Playwright](https://playwright.dev/))
 
    ```bash
-   npm run e2e-test
+   yarn run e2e-test
    ```
 
 ## Overview
