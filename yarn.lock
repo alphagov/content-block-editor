@@ -275,10 +275,10 @@
   resolved "https://registry.yarnpkg.com/@exodus/bytes/-/bytes-1.7.0.tgz#0bfe8baefb3843eb28b15eff7fd18edaefff6228"
   integrity sha512-5i+BtvujK/vM07YCGDyz4C4AyDzLmhxHMtM5HpUyPRtJPBdFPsj290ffXW+UXY21/G7GtXeHD2nRmq0T1ShyQQ==
 
-"@golevelup/ts-vitest@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@golevelup/ts-vitest/-/ts-vitest-0.5.2.tgz#213a90de041df46d4a9b3d4f081eee61e41ada6f"
-  integrity sha512-kxL12/4lBeYcdpfabvqWGgIagt8ycD6vUNlVyNUjGjxuqo8wPRB1Ohfnn4LNWQG8X8/xf74S2qYnOGqJ7IvWFA==
+"@golevelup/ts-vitest@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@golevelup/ts-vitest/-/ts-vitest-2.1.1.tgz#b7e3e76edc730cbc477fdba6ff68d2c7f2cabfc4"
+  integrity sha512-G8nk6d6z+dWiBNmGR4ukKG5bBX/qd2dG8hLKdvRbqXV7j6eZjv4NXeMHTVE5D3kcqSyO5raPdeKWCaRqF8a68g==
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
