@@ -33,7 +33,7 @@
     "govuk-frontend": "^5.14.0",
     "jsdom": "^27.4.0",
     "monaco-editor": "^0.52.2",
-    "prettier": "^3.5.3",
+    "prettier": "^3.8.0",
     "vitest": "^4.0.17",
     "vitest-canvas-mock": "^1.1.3"
   }
