@@ -17,7 +17,7 @@
     "prettier:write": "prettier . --write"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@golevelup/ts-vitest": "^2.2.0",
     "@playwright/test": "^1.58.2",
     "eslint": "^10.2.0",
