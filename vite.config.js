@@ -1,13 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import monacoEditorEsmPlugin from "vite-plugin-monaco-editor-esm";
 
 export default defineConfig({
-  plugins: [
-    monacoEditorEsmPlugin({
-      languageWorkers: ["editorWorkerService"],
-    }),
-  ],
   build: {
     lib: {
       entry: resolve(__dirname, "src/content-block-editor.ts"),
@@ -45,12 +39,5 @@ export default defineConfig({
       },
     },
     exclude: ["**/node_modules/**", "**/e2e/**"],
-    alias: [
-      {
-        find: /^monaco-editor$/,
-        replacement:
-          __dirname + "/node_modules/monaco-editor/esm/vs/editor/editor.api",
-      },
-    ],
   },
 });
