@@ -2,29 +2,3 @@
 @import "govuk/helpers/index";
 
 @import "govuk/components/textarea";
-
-@import "modal_dialogue";
-
-.content-block-editor {
-  &__wrapper {
-    @extend .govuk-textarea;
-    padding: 0;
-    position: relative;
-
-    &--focussed {
-      @extend .govuk-textarea, :focus;
-    }
-  }
-}
-
-.monaco-editor {
-  .monaco-scrollable-element {
-    .scrollbar.vertical {
-      padding: 1px;
-      .slider {
-        border-radius: 8px;
-        color: #7b7b7b;
-      }
-    }
-  }
-}
