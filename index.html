@@ -51,7 +51,10 @@
       <main class="govuk-main-wrapper" id="main-content">
         <div id="app">
           <h1 class="govuk-heading-xl">Content Block Editor</h1>
-          <textarea class="my-textarea govuk-textarea"></textarea>
+          <textarea
+            class="my-textarea govuk-textarea"
+            data-module="content-block-highlight"
+          ></textarea>
         </div>
       </main>
     </div>
@@ -98,8 +101,8 @@
       import "/scss/base.scss";
       import "/scss/example.scss";
     </script>
-    <script type="module" src="/src/content-block-editor.ts"></script>
     <script type="module">
+      import { ContentBlockEditor } from "/src/content-block-editor.ts";
       new ContentBlockEditor(document.querySelector(".my-textarea"));
     </script>
     <script type="application/json" id="content-blocks">
