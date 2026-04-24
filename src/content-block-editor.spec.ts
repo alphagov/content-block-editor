@@ -118,6 +118,13 @@ describe("ContentBlockEditor", () => {
       expect(editorInstance.highlight.scrollTop).toBe(50);
       expect(editorInstance.highlight.scrollLeft).toBe(20);
     });
+
+    test("it initializes ResizeObserver to sync scroll on resize", () => {
+      const observeSpy = vi.spyOn(ResizeObserver.prototype, "observe");
+      new ContentBlockEditor(textarea);
+
+      expect(observeSpy).toHaveBeenCalledWith(textarea);
+    });
   });
 
   describe("initAll", () => {

@@ -14,6 +14,18 @@ Object.defineProperty(window, "matchMedia", {
   })),
 });
 
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+Object.defineProperty(window, "ResizeObserver", {
+  writable: true,
+  configurable: true,
+  value: ResizeObserverMock,
+});
+
 // Required for Canvas mocking to work correctly
 beforeEach(() => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
