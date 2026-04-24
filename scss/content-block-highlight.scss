@@ -1,0 +1,30 @@
+.content-block-highlight__wrapper {
+  position: relative;
+  display: block;
+}
+
+.content-block-highlight__highlight.govuk-textarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+
+  border-color: transparent;
+  overflow: hidden;
+
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+textarea.content-block-highlight__input {
+  position: relative;
+  z-index: 1;
+
+  background-color: transparent;
+  color: transparent;
+  caret-color: $govuk-text-colour;
+
+  resize: none;
+}
