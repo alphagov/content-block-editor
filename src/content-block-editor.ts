@@ -16,10 +16,18 @@ export class ContentBlockEditor {
     this.updateHighlight();
 
     this.textarea.addEventListener("input", () => this.updateHighlight());
-    this.textarea.addEventListener("scroll", () => {
-      this.highlight.scrollTop = this.textarea.scrollTop;
-      this.highlight.scrollLeft = this.textarea.scrollLeft;
-    });
+    this.textarea.addEventListener("scroll", () => this.syncScroll());
+
+    // checks for changes to the dimensions of the textarea, and syncs the scroll position of the highlight accordingly
+    // see docs: https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(() => this.syncScroll()).observe(this.textarea);
+    }
+  }
+
+  syncScroll() {
+    this.highlight.scrollTop = this.textarea.scrollTop;
+    this.highlight.scrollLeft = this.textarea.scrollLeft;
   }
 
   initializeModule(element: Element): HTMLTextAreaElement {
