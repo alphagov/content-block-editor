@@ -2,107 +2,133 @@ import { expect, test, describe, beforeEach, vi } from "vitest";
 import { ContentBlockEditor } from "./content-block-editor.ts";
 
 describe("ContentBlockEditor", () => {
-  let module: HTMLTextAreaElement;
+  let textarea: HTMLTextAreaElement;
+  let editor: ContentBlockEditor;
 
   beforeEach(() => {
-    window.contentBlocks = [];
-    window.ContentBlockEditor = ContentBlockEditor;
-    window.document.body.innerHTML =
-      '<textarea class="my-selector"></textarea>';
-
-    module = <HTMLTextAreaElement>document.querySelector(".my-selector");
+    document.body.innerHTML = `
+      <div id="container">
+        <textarea id="my-textarea" data-module="content-block-highlight"></textarea>
+      </div>
+    `;
+    textarea = document.getElementById("my-textarea") as HTMLTextAreaElement;
+    editor = new ContentBlockEditor(textarea);
   });
 
-  test("it creates a container", () => {
-    new window.ContentBlockEditor(module);
-
-    expect(document.querySelector(".monaco-editor")).not.toBeNull();
-  });
-
-  test("it hides the textarea", () => {
-    new window.ContentBlockEditor(module);
-
-    const classes = Array.from(
-      document.querySelector(".my-selector")?.classList || [],
-    );
-
-    expect(classes).to.include("govuk-visually-hidden");
-  });
-
-  test("it creates a button to insert a content block", () => {
-    new window.ContentBlockEditor(module);
-
-    const button = document.querySelector(
-      ".content-block-editor__toggle-button",
-    ) as HTMLElement;
-
-    expect(button).not.toBeNull();
-
-    const classes = Array.from(button.classList);
-
-    expect(classes).to.include("gem-c-button");
-    expect(classes).to.include("govuk-button");
-
-    expect(button.innerText).to.eq("Insert Content Block");
-  });
-
-  test("it opens the modal window when the button is clicked", () => {
-    const modalSpy = vi.spyOn(self.contentBlockBrowser.modal.module, "open");
-
-    const contentBlockEditor = new window.ContentBlockEditor(module);
-
-    const button = document.querySelector(
-      ".content-block-editor__toggle-button",
-    ) as HTMLElement;
-    const event = new window.Event("click");
-    const eventSpy = vi.spyOn(event, "preventDefault");
-
-    button.dispatchEvent(event);
-
-    expect(eventSpy).toHaveBeenCalledOnce();
-    expect(modalSpy).toHaveBeenCalledOnce();
-    expect(self.contentBlockBrowser.modal.module.dataset.editorId).toEqual(
-      contentBlockEditor.editor.getId(),
-    );
-  });
-
-  test("it adds a reference to the editor to the global object", () => {
-    const contentBlockEditor = new window.ContentBlockEditor(module);
-    const editor = contentBlockEditor.editor;
-
-    expect(window.editors[editor.getId()]).toEqual(editor);
-  });
-
-  test("it throws an error if the module is not a textarea", () => {
-    window.document.body.innerHTML = '<div class="my-selector"></div>';
-
-    module = <HTMLTextAreaElement>document.querySelector(".my-selector");
-
-    expect(() => {
-      new window.ContentBlockEditor(module);
-    }).toThrow('The module <div class="my-selector"></div> is not a textarea');
-  });
-
-  test("it allows the height of the editor to be specified", () => {
-    module.dataset.editorHeight = "400px";
-    new window.ContentBlockEditor(module);
-
-    const wrapper = document.querySelector(".content-block-editor__wrapper");
-
-    expect(wrapper?.getAttribute("style")).toEqual("height: 400px");
-  });
-
-  test("it gets the height of the textarea if a custom height is not specified", () => {
-    window.getComputedStyle = vi.fn().mockImplementation(() => {
-      return {
-        height: "40px",
-        fontSize: "20px",
-      };
+  describe("initializeModule", () => {
+    test("it returns the element if it is a textarea", () => {
+      expect(editor.initializeModule(textarea)).toBe(textarea);
     });
-    new window.ContentBlockEditor(module);
 
-    const wrapper = document.querySelector(".content-block-editor__wrapper");
+    test("it throws an error if the element is not a textarea", () => {
+      const div = document.createElement("div");
+      div.innerHTML = "Not a textarea";
+      const editorMock = Object.create(ContentBlockEditor.prototype);
+      expect(() => editorMock.initializeModule(div)).toThrow(
+        /is not a textarea/,
+      );
+    });
+  });
 
-    expect(wrapper?.getAttribute("style")).toEqual("height: 40px");
+  describe("createWrapper", () => {
+    test("it creates a wrapper div and moves the textarea inside it", () => {
+      const wrapper = editor.wrapper;
+
+      expect(wrapper.className).toBe("content-block-highlight__wrapper");
+      expect(textarea.parentNode).toBe(wrapper);
+      expect(document.getElementById("container")?.firstElementChild).toBe(
+        wrapper,
+      );
+    });
+  });
+
+  describe("createHighlight", () => {
+    test("it creates a highlight div inside the wrapper", () => {
+      const highlight = editor.highlight;
+
+      expect(highlight.className).toContain(
+        "content-block-highlight__highlight",
+      );
+      expect(highlight.getAttribute("aria-hidden")).toBe("true");
+      expect(editor.wrapper.contains(highlight)).toBe(true);
+    });
+  });
+
+  describe("updateHighlight", () => {
+    test("it escapes HTML and wraps embed codes", () => {
+      editor.textarea = textarea;
+      editor.highlight = document.createElement("div");
+
+      textarea.value = "<b>{{embed:contact:123}}</b>";
+      editor.updateHighlight();
+
+      expect(editor.highlight.innerHTML).toBe(
+        '&lt;b&gt;<mark class="content-block-highlight__mark">{{embed:contact:123}}</mark>&lt;/b&gt;',
+      );
+    });
+
+    test("it adds a trailing space if the text ends with a newline", () => {
+      editor.textarea = textarea;
+      editor.highlight = document.createElement("div");
+
+      textarea.value = "text\n";
+      editor.updateHighlight();
+
+      expect(editor.highlight.innerHTML).toBe("text\n ");
+    });
+  });
+
+  describe("constructor & events", () => {
+    test("the constructor initializes everything correctly", () => {
+      const editorInstance = new ContentBlockEditor(textarea);
+
+      expect(editorInstance.textarea).toBe(textarea);
+      expect(
+        editorInstance.wrapper.classList.contains(
+          "content-block-highlight__wrapper",
+        ),
+      ).toBe(true);
+      expect(
+        editorInstance.highlight.classList.contains(
+          "content-block-highlight__highlight",
+        ),
+      ).toBe(true);
+      expect(
+        textarea.classList.contains("content-block-highlight__input"),
+      ).toBe(true);
+    });
+
+    test("it updates the highlight on input", () => {
+      new ContentBlockEditor(textarea);
+      textarea.value = "{{embed:contact:123}}";
+      textarea.dispatchEvent(new Event("input"));
+
+      const highlight = document.querySelector(
+        ".content-block-highlight__highlight",
+      );
+      expect(highlight?.innerHTML).toContain("<mark");
+    });
+
+    test("it syncs scroll positions", () => {
+      const editorInstance = new ContentBlockEditor(textarea);
+      textarea.scrollTop = 50;
+      textarea.scrollLeft = 20;
+      textarea.dispatchEvent(new Event("scroll"));
+
+      expect(editorInstance.highlight.scrollTop).toBe(50);
+      expect(editorInstance.highlight.scrollLeft).toBe(20);
+    });
+  });
+
+  describe("initAll", () => {
+    test("it initializes multiple instances based on data-module", () => {
+      document.body.innerHTML = `
+        <textarea data-module="content-block-highlight"></textarea>
+        <textarea data-module="content-block-highlight"></textarea>
+      `;
+      const editors = ContentBlockEditor.initAll();
+      expect(editors.length).toBe(2);
+      expect(editors[0]).toBeInstanceOf(ContentBlockEditor);
+    });
   });
 });
