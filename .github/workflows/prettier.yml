@@ -8,7 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".node-version"
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Run prettier
-        run: yarn run prettier:check
+        run: npm run prettier:check
