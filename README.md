@@ -8,13 +8,13 @@ A lightweight, drop-in textarea highlighter for highlighting content blocks with
 1. Install dependencies:
 
    ```bash
-   yarn install
+   npm install
    ```
 
 1. Run the development server:
 
    ```bash
-   yarn run dev
+   npm run dev
    ```
 
 1. Access the [Example editor](http://localhost:5173/)
@@ -23,13 +23,13 @@ A lightweight, drop-in textarea highlighter for highlighting content blocks with
    ### Unit tests
 
    ```bash
-   yarn run test
+   npm run test
    ```
 
    ### E2E tests (using [Playwright](https://playwright.dev/))
 
    ```bash
-   yarn run e2e-test
+   npm run e2e-test
    ```
 
 ## Overview
