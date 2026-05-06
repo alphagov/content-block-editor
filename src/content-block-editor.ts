@@ -1,78 +1,93 @@
 import "../scss/base.scss";
-
-import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-import { createEditor } from "./monaco/editor.ts";
-import { ContentBlockBrowser } from "./content-block/content-block-browser.ts";
-
-self.editors = {};
-
-self.MonacoEnvironment = {
-  getWorker() {
-    return new editorWorker();
-  },
-};
-
-self.contentBlockBrowser = new ContentBlockBrowser();
+import embedRegex from "./content-block/regex.ts";
 
 export class ContentBlockEditor {
-  module: HTMLTextAreaElement;
-  container: HTMLDivElement;
-  editor: editor.IStandaloneCodeEditor;
-
-  themeName = "content-block-editor";
-  languageId = "govspeak";
+  textarea: HTMLTextAreaElement;
+  wrapper: HTMLDivElement;
+  highlight: HTMLDivElement;
 
   constructor(element: Element) {
-    this.module = this.initializeModule(element);
-    this.container = this.createContainer();
-    this.editor = createEditor(this.container, this.module);
-    this.createToolbar();
+    this.textarea = this.initializeModule(element);
+    this.wrapper = this.createWrapper();
+    this.highlight = this.createHighlight();
 
-    element.classList.add("govuk-visually-hidden");
+    this.textarea.classList.add("content-block-highlight__input");
 
-    self.editors[this.editor.getId()] = this.editor;
+    this.updateHighlight();
+
+    this.textarea.addEventListener("input", () => this.updateHighlight());
+    this.textarea.addEventListener("scroll", () => this.syncScroll());
+
+    // checks for changes to the dimensions of the textarea, and syncs the scroll position of the highlight accordingly
+    // see docs: https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(() => this.syncScroll()).observe(this.textarea);
+    }
   }
 
-  initializeModule = (element: Element): HTMLTextAreaElement => {
-    if ("value" in element) {
-      return <HTMLTextAreaElement>element;
+  syncScroll() {
+    this.highlight.scrollTop = this.textarea.scrollTop;
+    this.highlight.scrollLeft = this.textarea.scrollLeft;
+  }
+
+  initializeModule(element: Element): HTMLTextAreaElement {
+    if (element instanceof HTMLTextAreaElement) {
+      return element as HTMLTextAreaElement;
     } else {
       throw new Error(`The module ${element.outerHTML} is not a textarea`);
     }
-  };
-
-  createToolbar() {
-    const insertButton = document.createElement("button");
-    insertButton.classList.add(
-      "gem-c-button",
-      "govuk-button",
-      "content-block-editor__toggle-button",
-    );
-    insertButton.innerText = "Insert Content Block";
-
-    insertButton.addEventListener("click", (e: MouseEvent) => {
-      e.preventDefault();
-      const modal = self.contentBlockBrowser.modal.module;
-      modal.open();
-      modal.dataset.editorId = this.editor.getId();
-    });
-
-    this.container.before(insertButton);
   }
 
-  createContainer(): HTMLDivElement {
-    const styles = window.getComputedStyle(this.module);
-    const height = this.module.dataset.editorHeight || styles.height;
+  createWrapper(): HTMLDivElement {
+    const wrapper = document.createElement("div");
+    wrapper.className = "content-block-highlight__wrapper";
 
-    const container = document.createElement("div");
-    container.classList.add("content-block-editor__wrapper");
-    container.setAttribute("style", `height: ${height}`);
+    this.textarea.parentNode!.insertBefore(wrapper, this.textarea);
+    wrapper.appendChild(this.textarea);
 
-    this.module.after(container);
+    return wrapper;
+  }
 
-    return container;
+  createHighlight(): HTMLDivElement {
+    const highlight = document.createElement("div");
+    highlight.className = "govuk-textarea content-block-highlight__highlight";
+
+    highlight.setAttribute("aria-hidden", "true");
+
+    this.wrapper.appendChild(highlight);
+
+    return highlight;
+  }
+
+  updateHighlight() {
+    let text = this.textarea.value;
+
+    if (text[text.length - 1] === "\n") {
+      text += " ";
+    }
+
+    // Escape HTML entities
+    text = text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    // Wrap matched embed codes with <mark>
+    text = text.replace(
+      embedRegex,
+      '<mark class="content-block-highlight__mark">$&</mark>',
+    );
+
+    this.highlight.innerHTML = text;
+  }
+
+  static initAll(scope: ParentNode = document): ContentBlockEditor[] {
+    const elements = scope.querySelectorAll(
+      '[data-module~="content-block-highlight"]',
+    );
+
+    return Array.from(elements).map(
+      (element) => new ContentBlockEditor(element),
+    );
   }
 }
-
-window.ContentBlockEditor = ContentBlockEditor;

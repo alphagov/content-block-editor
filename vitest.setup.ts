@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, vi } from "vitest";
-import "vitest-canvas-mock";
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
@@ -13,6 +12,18 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
+});
+
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+Object.defineProperty(window, "ResizeObserver", {
+  writable: true,
+  configurable: true,
+  value: ResizeObserverMock,
 });
 
 // Required for Canvas mocking to work correctly

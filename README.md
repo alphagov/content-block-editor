@@ -1,6 +1,6 @@
 # Content Block Editor
 
-A prototype using [Monaco Editor](https://microsoft.github.io/monaco-editor/) to demonstrate how we could highlight content blocks within publishing apps.
+A lightweight, drop-in textarea highlighter for highlighting content blocks within publishing apps.
 
 ## Local development
 
@@ -36,25 +36,30 @@ A prototype using [Monaco Editor](https://microsoft.github.io/monaco-editor/) to
 
 The editor can be used as a "drop-in" replacement for textareas, allowing Content Block embed codes from
 [Content Block Manager](https://docs.publishing.service.gov.uk/repos/whitehall/content_block_manager.html) to be
-highlighted, and (in future) provide contextual information about the blocks.
+highlighted.
 
-Currently, all that the application does is highlight blocks like so:
+It works by overlaying a transparent textarea on top of a styled `<div>` that contains the highlighted content. This ensures that standard textarea behaviour is maintained while providing visual highlighting.
 
-![Preview](docs/img/preview.png)
+### Usage
 
-In future, we'd like to:
+To initialise the editor on a textarea, add the `data-module="content-block-highlight"` attribute:
 
-- [ ] Add contextual information (using [`registerInlayHintsProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerInlayHintsProvider.html))
-- [x] Add information about a block on hover (using [`registerHoverProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerHoverProvider.html))
-- [x] Highlight invalid / not found blocks
-- [ ] Add autocompletion (using [`registerCompletionItemProvider`](https://microsoft.github.io/monaco-editor/typedoc/functions/languages.registerCompletionItemProvider.html))
+```html
+<textarea data-module="content-block-highlight"></textarea>
+```
 
-Additionally, we can quite easily provide Markdown highlighting using [see the Markdown example here](https://microsoft.github.io/monaco-editor/monarch.html),
-but we need to test the basic principle with users first.
+Then initialise the Javascript:
 
-A (very rough) prototype containing much of these features can be found in the [Prototype directory](./prototype). The
-most interesting stuff can be found in the [monaco.js file](./prototype/js/monaco.js)
+```javascript
+import { ContentBlockEditor } from "content-block-editor";
+
+ContentBlockEditor.initAll();
+```
 
 ## Demo
 
 You can see a [demo of the work so far here](https://alphagov.github.io/content-block-editor/)
+
+## Future work
+
+In future, we'd like to provide previews of the content blocks when the user hovers over an embed code.
