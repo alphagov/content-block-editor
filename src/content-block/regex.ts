@@ -13,10 +13,21 @@ const uuidRegex =
 const contentIdAliasRegex = /[a-z0-9\-–—]+/;
 // The regex to find the optional internal content path after the UUID, begins with '/'
 const internalContentPathRegex = /(\/[a-z0-9_\-–—/]*)?/;
+// The regex used to find the optional format specifier begins with '#'
+const formatSpecifierRegex = /(#[^}#]+)?/;
 // The regex used when scanning a document using ContentBlockTools::ContentBlockReference.find_all_in_document
-const embedRegex = new RegExp(
-  `(\\{\\{embed:(${supportedDocumentTypes.join("|")}):(${uuidRegex.source}|${contentIdAliasRegex.source})${internalContentPathRegex.source}\\}\\})`,
-  "g",
-);
+const pattern = [
+  "(",
+  "\\{\\{embed:", // Start of the embed tag
+  `(${supportedDocumentTypes.join("|")})`, // The supported document types
+  ":", // Separator between the embed type and the UUID
+  `(${uuidRegex.source}|${contentIdAliasRegex.source})`, // The UUID or content ID alias
+  internalContentPathRegex.source, // The optional internal content path
+  formatSpecifierRegex.source, // The optional format specifier
+  "\\}\\}", // End of the embed tag
+  ")",
+].join("");
+
+const embedRegex = new RegExp(pattern, "g");
 
 export default embedRegex;

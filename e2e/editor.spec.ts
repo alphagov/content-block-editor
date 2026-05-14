@@ -28,6 +28,21 @@ test.describe("Content Block Editor", () => {
     await expect(mark).toHaveText(embedCode);
   });
 
+  test("it detects and highlights embed codes with a format specifier", async ({
+    page,
+  }) => {
+    const textarea = page.locator("textarea.content-block-highlight__input");
+    const highlight = page.locator(".content-block-highlight__highlight");
+
+    const embedCode =
+      "{{embed:content_block_pension:1690ab79-1880-461e-99e4-ed146fd9efab#some_format}}";
+
+    await textarea.fill(embedCode);
+
+    const mark = highlight.locator("mark.content-block-highlight__mark");
+    await expect(mark).toHaveText(embedCode);
+  });
+
   test("it syncs scrolling between textarea and highlight div", async ({
     page,
   }) => {
