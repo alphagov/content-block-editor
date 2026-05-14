@@ -1,11 +1,21 @@
 //#region src/content-block/regex.ts
-var e = RegExp(`(\\{\\{embed:(${[
-	"contact",
-	"content_block_pension",
-	"content_block_contact",
-	"content_block_tax",
-	"content_block_time_period"
-].join("|")}):([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9\\-–—]+)(\\/[a-z0-9_\\-–—/]*)?\\}\\})`, "g"), t = class t {
+var e = [
+	"(",
+	"\\{\\{embed:",
+	`(${[
+		"contact",
+		"content_block_pension",
+		"content_block_contact",
+		"content_block_tax",
+		"content_block_time_period"
+	].join("|")})`,
+	":",
+	"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9\\-–—]+)",
+	"(\\/[a-z0-9_\\-–—/]*)?",
+	"(#[^}#]+)?",
+	"\\}\\}",
+	")"
+].join(""), t = new RegExp(e, "g"), n = class e {
 	textarea;
 	wrapper;
 	highlight;
@@ -28,13 +38,13 @@ var e = RegExp(`(\\{\\{embed:(${[
 		return e.className = "govuk-textarea content-block-highlight__highlight", e.setAttribute("aria-hidden", "true"), this.wrapper.appendChild(e), e;
 	}
 	updateHighlight() {
-		let t = this.textarea.value;
-		t[t.length - 1] === "\n" && (t += " "), t = t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"), t = t.replace(e, "<mark class=\"content-block-highlight__mark\">$&</mark>"), this.highlight.innerHTML = t;
+		let e = this.textarea.value;
+		e[e.length - 1] === "\n" && (e += " "), e = e.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"), e = e.replace(t, "<mark class=\"content-block-highlight__mark\">$&</mark>"), this.highlight.innerHTML = e;
 	}
-	static initAll(e = document) {
-		let n = e.querySelectorAll("[data-module~=\"content-block-highlight\"]");
-		return Array.from(n).map((e) => new t(e));
+	static initAll(t = document) {
+		let n = t.querySelectorAll("[data-module~=\"content-block-highlight\"]");
+		return Array.from(n).map((t) => new e(t));
 	}
 };
 //#endregion
-export { t as ContentBlockEditor };
+export { n as ContentBlockEditor };
