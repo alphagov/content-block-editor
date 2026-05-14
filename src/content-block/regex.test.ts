@@ -29,6 +29,17 @@ describe("regex", () => {
     expect(result![4]).toEqual("/rates/rate-1/amount");
   });
 
+  test("matches an embed with a format specifier", () => {
+    const input =
+      "{{embed:content_block_pension:1690ab79-1880-461e-99e4-ed146fd9efab#some_format}}";
+    const result = regex.exec(input);
+
+    expect(result).not.toBeNull();
+    expect(result![2]).toEqual("content_block_pension");
+    expect(result![3]).toEqual("1690ab79-1880-461e-99e4-ed146fd9efab");
+    expect(result![5]).toEqual("#some_format");
+  });
+
   test.each([
     "contact",
     "content_block_pension",
