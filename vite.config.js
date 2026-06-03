@@ -2,6 +2,15 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://content-block-manager.dev.gov.uk",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   build: {
     lib: {
       entry: resolve(__dirname, "src/content-block-editor.ts"),
