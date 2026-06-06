@@ -244,7 +244,7 @@ describe("ContentBlockEditor", () => {
       );
       const secondMark = marks[1] as HTMLElement;
 
-      editor.hoveredEmbedCode = firstEmbed;
+      editor.currentEmbedCodePreview = firstEmbed;
       editor.preview.hidden = false;
       editor.preview.innerHTML = "<p>Old preview</p>";
 
@@ -264,7 +264,7 @@ describe("ContentBlockEditor", () => {
 
       expect(editor.preview.hidden).toBe(true);
       expect(editor.preview.innerHTML).toBe("");
-      expect(editor.hoveredEmbedCode).toBe(secondEmbed);
+      expect(editor.currentEmbedCodePreview).toBe(secondEmbed);
     });
   });
 });
@@ -325,7 +325,7 @@ describe("ContentBlockEditor - Preview Fetching and Rendering", () => {
       mark.className = "content-block-highlight__mark";
       mark.textContent = embedCode;
       editor.highlight.appendChild(mark);
-      editor.hoveredEmbedCode = embedCode;
+      editor.currentEmbedCodePreview = embedCode;
 
       // Mock getBoundingClientRect for positionPreview
       vi.spyOn(mark, "getBoundingClientRect").mockReturnValue({
@@ -421,7 +421,7 @@ describe("ContentBlockEditor - Preview Fetching and Rendering", () => {
       const callPromise = editor.fetchAndRenderPreview(embedCode, mark);
 
       // Change hovered embed code while fetch is pending
-      editor.hoveredEmbedCode = "{{embed:other:456}}";
+      editor.currentEmbedCodePreview = "{{embed:other:456}}";
 
       resolveFetch!({
         ok: true,
@@ -439,7 +439,7 @@ describe("ContentBlockEditor - Preview Fetching and Rendering", () => {
     });
   });
 
-  describe("hidePreview and resetHoverState", () => {
+  describe("hidePreview", () => {
     test("hidePreview clears content and hides element", () => {
       editor.preview.innerHTML = "some content";
       editor.preview.hidden = false;
@@ -449,17 +449,19 @@ describe("ContentBlockEditor - Preview Fetching and Rendering", () => {
       expect(editor.preview.innerHTML).toBe("");
       expect(editor.preview.hidden).toBe(true);
     });
+  });
 
+  describe("resetHoverState", () => {
     test("resetHoverState clears timer and hovered code", () => {
       const clearTimeoutSpy = vi.spyOn(window, "clearTimeout");
       editor.hoverTimerId = 123;
-      editor.hoveredEmbedCode = "code";
+      editor.currentEmbedCodePreview = "code";
 
       editor.resetHoverState();
 
       expect(clearTimeoutSpy).toHaveBeenCalledWith(123);
       expect(editor.hoverTimerId).toBeNull();
-      expect(editor.hoveredEmbedCode).toBeNull();
+      expect(editor.currentEmbedCodePreview).toBeNull();
       expect(editor.preview.hidden).toBe(true);
     });
 

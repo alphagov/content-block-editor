@@ -1,18 +1,28 @@
 import "../scss/base.scss";
+import {
+  calculatePreviewPosition,
+  getElementUnderPointer,
+  shouldHidePreview,
+} from "./content-block/hover-preview-utils.ts";
 import embedRegex from "./content-block/regex.ts";
 
-const EMBED_PREVIEW_DELAY_MS = 200;
-const EMBED_RENDER_ENDPOINT = "/api/blocks/render";
-
 export class ContentBlockEditor {
+  readonly embedPreviewDelayMs: number;
+  readonly embedRenderEndpoint: string;
   textarea: HTMLTextAreaElement;
   wrapper: HTMLDivElement;
   highlight: HTMLDivElement;
   preview: HTMLDivElement;
   hoverTimerId: number | null = null;
-  hoveredEmbedCode: string | null = null;
+  currentEmbedCodePreview: string | null = null;
 
-  constructor(element: Element) {
+  constructor(
+    element: Element,
+    embedPreviewDelayMs: number = 200,
+    embedRenderEndpoint: string = "/api/blocks/render",
+  ) {
+    this.embedPreviewDelayMs = embedPreviewDelayMs;
+    this.embedRenderEndpoint = embedRenderEndpoint;
     this.textarea = this.initializeModule(element);
     this.wrapper = this.createWrapper();
     this.highlight = this.createHighlight();
@@ -25,7 +35,7 @@ export class ContentBlockEditor {
     this.textarea.addEventListener("input", () => this.updateHighlight());
     this.textarea.addEventListener("scroll", () => this.syncScroll());
     this.wrapper.addEventListener("mousemove", (event) =>
-      this.handleMouseMove(event),
+      this.updateHoverState(event),
     );
     this.wrapper.addEventListener("mouseleave", () => this.resetHoverState());
 
@@ -81,52 +91,40 @@ export class ContentBlockEditor {
     return preview;
   }
 
-  getHoveredMark(event: MouseEvent): HTMLElement | null {
-    const elements = document.elementsFromPoint(event.clientX, event.clientY);
+  updateHoverState(event: MouseEvent): void {
+    const elementUnderPointer = getElementUnderPointer(event, this.highlight);
 
-    return (
-      (elements.find(
-        (element) =>
-          element instanceof HTMLElement &&
-          element.classList.contains("content-block-highlight__mark") &&
-          this.highlight.contains(element),
-      ) as HTMLElement | undefined) ?? null
-    );
-  }
-
-  handleMouseMove(event: MouseEvent) {
-    const hoveredMark = this.getHoveredMark(event);
-
-    if (!hoveredMark) {
-      if (this.hasActiveHoverState()) {
+    if (elementUnderPointer === null) {
+      if (shouldHidePreview(this)) {
         this.resetHoverState();
       }
       return;
     }
 
-    const embedCode = hoveredMark.textContent ?? "";
+    const embedCode = elementUnderPointer.textContent ?? "";
 
-    if (!embedCode || this.hoveredEmbedCode === embedCode) {
+    if (this.currentEmbedCodePreview === embedCode) {
       return;
     }
 
-    if (this.hoveredEmbedCode !== null) {
+    if (this.currentEmbedCodePreview !== null) {
       this.hidePreview();
     }
 
     this.clearHoverTimer();
-    this.hoveredEmbedCode = embedCode;
+    this.currentEmbedCodePreview = embedCode;
 
     this.hoverTimerId = window.setTimeout(async () => {
+      this.hoverTimerId = null;
       if (
-        this.hoveredEmbedCode !== embedCode ||
-        !this.highlight.contains(hoveredMark)
+        this.currentEmbedCodePreview !== embedCode ||
+        !this.highlight.contains(elementUnderPointer)
       ) {
         return;
       }
 
-      await this.fetchAndRenderPreview(embedCode, hoveredMark);
-    }, EMBED_PREVIEW_DELAY_MS);
+      await this.fetchAndRenderPreview(embedCode, elementUnderPointer);
+    }, this.embedPreviewDelayMs);
   }
 
   clearHoverTimer() {
@@ -137,33 +135,21 @@ export class ContentBlockEditor {
   }
 
   hidePreview() {
-    if (this.preview.hidden && this.preview.innerHTML === "") {
-      return;
-    }
-
     this.preview.hidden = true;
+    this.preview.setAttribute("aria-hidden", "true");
     this.preview.innerHTML = "";
-  }
-
-  hasActiveHoverState() {
-    return (
-      this.hoverTimerId !== null ||
-      this.hoveredEmbedCode !== null ||
-      !this.preview.hidden ||
-      this.preview.innerHTML !== ""
-    );
   }
 
   resetHoverState() {
     this.clearHoverTimer();
-    this.hoveredEmbedCode = null;
+    this.currentEmbedCodePreview = null;
     this.hidePreview();
   }
 
   async fetchAndRenderPreview(embedCode: string, markElement: HTMLElement) {
     try {
       const query = new URLSearchParams({ "embed_codes[]": embedCode });
-      const url = `${EMBED_RENDER_ENDPOINT}?${query.toString()}`;
+      const url = `${this.embedRenderEndpoint}?${query.toString()}`;
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -171,12 +157,10 @@ export class ContentBlockEditor {
         return;
       }
 
-      const json = await response.json();
-
-      if (this.hoveredEmbedCode !== embedCode) {
+      if (this.currentEmbedCodePreview !== embedCode) {
         return;
       }
-
+      const json = await response.json();
       const html = json.rendered_blocks?.[embedCode]?.html;
 
       if (!html) {
@@ -187,17 +171,16 @@ export class ContentBlockEditor {
       this.preview.innerHTML = html;
       this.positionPreview(markElement);
       this.preview.hidden = false;
+      this.preview.setAttribute("aria-hidden", "false");
     } catch {
       this.hidePreview();
     }
   }
 
-  positionPreview(markElement: HTMLElement) {
-    const markRect = markElement.getBoundingClientRect();
-    const wrapperRect = this.wrapper.getBoundingClientRect();
-
-    this.preview.style.left = `${markRect.left - wrapperRect.left}px`;
-    this.preview.style.top = `${markRect.bottom - wrapperRect.top + 8}px`;
+  positionPreview(markElement: HTMLElement): void {
+    const position = calculatePreviewPosition(markElement, this.wrapper);
+    this.preview.style.left = position.left;
+    this.preview.style.top = position.top;
   }
 
   updateHighlight() {

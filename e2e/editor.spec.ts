@@ -148,13 +148,17 @@ test.describe("Content Block Editor", () => {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ rendered_blocks: {} }),
+        body: JSON.stringify({
+          rendered_blocks: {
+            [embedCode]: { html: "<p>Rendered block</p>" },
+          },
+        }),
       });
     });
 
     await textarea.fill(embedCode);
     await hoverTextareaAtMark(page);
-    await page.waitForTimeout(previewDelayMs - 50);
+    await page.waitForTimeout(25);
 
     const wrapperBox = await wrapper.boundingBox();
     if (!wrapperBox) {
