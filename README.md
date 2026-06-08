@@ -1,4 +1,4 @@
-# Content Block Editor
+# Content Block Picker
 
 A lightweight, drop-in textarea highlighter for highlighting content blocks within publishing apps.
 
@@ -17,7 +17,7 @@ A lightweight, drop-in textarea highlighter for highlighting content blocks with
    npm run dev
    ```
 
-1. Access the [Example editor](http://localhost:5173/)
+1. Access the [Example Picker](http://localhost:5173/)
 1. Run tests
 
    ### Unit tests
@@ -34,7 +34,7 @@ A lightweight, drop-in textarea highlighter for highlighting content blocks with
 
 ## Overview
 
-The editor can be used as a "drop-in" replacement for textareas, allowing Content Block embed codes from
+The picker can be used as a "drop-in" replacement for textareas, allowing Content Block embed codes from
 [Content Block Manager](https://docs.publishing.service.gov.uk/repos/whitehall/content_block_manager.html) to be
 highlighted.
 
@@ -42,7 +42,7 @@ It works by overlaying a transparent textarea on top of a styled `<div>` that co
 
 ### Usage
 
-To initialise the editor on a textarea, add the `data-module="content-block-highlight"` attribute:
+To initialise the picker on a textarea, add the `data-module="content-block-highlight"` attribute:
 
 ```html
 <textarea data-module="content-block-highlight"></textarea>
