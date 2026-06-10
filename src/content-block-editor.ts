@@ -1,5 +1,6 @@
 import "../scss/base.scss";
 import embedRegex from "./content-block/regex.ts";
+import { createHoverPreviewElement } from "./content-block/hover-preview-utils.ts";
 
 export class ContentBlockEditor {
   readonly embedPreviewDelayMs: number;
@@ -7,6 +8,7 @@ export class ContentBlockEditor {
   textarea: HTMLTextAreaElement;
   wrapper: HTMLDivElement;
   highlight: HTMLDivElement;
+  preview: HTMLDivElement;
 
   constructor(
     element: Element,
@@ -18,6 +20,9 @@ export class ContentBlockEditor {
     this.textarea = this.initializeModule(element);
     this.wrapper = this.createWrapper();
     this.highlight = this.createHighlight();
+
+    this.preview = createHoverPreviewElement();
+    this.wrapper.appendChild(this.preview);
 
     this.textarea.classList.add("content-block-highlight__input");
 
