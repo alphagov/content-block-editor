@@ -2,11 +2,19 @@ import "../scss/base.scss";
 import embedRegex from "./content-block/regex.ts";
 
 export class ContentBlockEditor {
+  readonly embedPreviewDelayMs: number;
+  readonly embedRenderEndpoint: string;
   textarea: HTMLTextAreaElement;
   wrapper: HTMLDivElement;
   highlight: HTMLDivElement;
 
-  constructor(element: Element) {
+  constructor(
+    element: Element,
+    embedPreviewDelayMs: number = 200,
+    embedRenderEndpoint: string = "/api/blocks/render",
+  ) {
+    this.embedPreviewDelayMs = embedPreviewDelayMs;
+    this.embedRenderEndpoint = embedRenderEndpoint;
     this.textarea = this.initializeModule(element);
     this.wrapper = this.createWrapper();
     this.highlight = this.createHighlight();
