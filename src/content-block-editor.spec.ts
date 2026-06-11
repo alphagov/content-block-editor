@@ -1,9 +1,12 @@
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import { ContentBlockEditor } from "./content-block-editor.ts";
 
-describe("ContentBlockEditor", () => {
+describe("ContentBlockPicker", () => {
   let textarea: HTMLTextAreaElement;
   let editor: ContentBlockEditor;
+
+  const testDelayMs = 314;
+  const testEndpoint = "/api/foo";
 
   beforeEach(() => {
     document.body.innerHTML = `
@@ -54,6 +57,16 @@ describe("ContentBlockEditor", () => {
     });
   });
 
+  describe("createHoverPreview", () => {
+    test("it creates an element attached to the wrapper", () => {
+      const preview = editor.preview;
+
+      expect(preview.className).toContain("content-block-highlight__preview");
+      expect(preview.getAttribute("aria-hidden")).toBe("true");
+      expect(editor.wrapper.contains(preview)).toBe(true);
+    });
+  });
+
   describe("updateHighlight", () => {
     test("it escapes HTML and wraps embed codes", () => {
       editor.textarea = textarea;
@@ -80,7 +93,11 @@ describe("ContentBlockEditor", () => {
 
   describe("constructor & events", () => {
     test("the constructor initializes everything correctly", () => {
-      const editorInstance = new ContentBlockEditor(textarea);
+      const editorInstance = new ContentBlockEditor(
+        textarea,
+        testDelayMs,
+        testEndpoint,
+      );
 
       expect(editorInstance.textarea).toBe(textarea);
       expect(
@@ -96,6 +113,14 @@ describe("ContentBlockEditor", () => {
       expect(
         textarea.classList.contains("content-block-highlight__input"),
       ).toBe(true);
+
+      expect(
+        editorInstance.preview.classList.contains(
+          "content-block-highlight__preview",
+        ),
+      ).toBe(true);
+      expect(editorInstance.preview.getAttribute("aria-hidden")).toBe("true");
+      expect(editorInstance.embedPreviewDelayMs).toBe(testDelayMs);
     });
 
     test("it updates the highlight on input", () => {
