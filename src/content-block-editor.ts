@@ -1,28 +1,29 @@
 import "../scss/base.scss";
 import embedRegex from "./content-block/regex.ts";
 import { createHoverPreviewElement } from "./content-block/hover-preview-utils.ts";
+import { APIClient } from "./content-block/api-client.ts";
 
 export class ContentBlockEditor {
   readonly embedPreviewDelayMs: number;
-  readonly embedRenderEndpoint: string;
   textarea: HTMLTextAreaElement;
   wrapper: HTMLDivElement;
   highlight: HTMLDivElement;
   preview: HTMLDivElement;
+  apiClient: APIClient;
 
   constructor(
     element: Element,
     embedPreviewDelayMs: number = 200,
-    embedRenderEndpoint: string = "/api/blocks/render",
+    baseUrl: string = "/api/blocks/:embedcode/render",
   ) {
     this.embedPreviewDelayMs = embedPreviewDelayMs;
-    this.embedRenderEndpoint = embedRenderEndpoint;
     this.textarea = this.initializeModule(element);
     this.wrapper = this.createWrapper();
     this.highlight = this.createHighlight();
 
     this.preview = createHoverPreviewElement();
     this.wrapper.appendChild(this.preview);
+    this.apiClient = new APIClient(baseUrl);
 
     this.textarea.classList.add("content-block-highlight__input");
 

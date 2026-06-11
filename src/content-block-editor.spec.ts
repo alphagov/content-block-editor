@@ -121,7 +121,6 @@ describe("ContentBlockPicker", () => {
       ).toBe(true);
       expect(editorInstance.preview.getAttribute("aria-hidden")).toBe("true");
       expect(editorInstance.embedPreviewDelayMs).toBe(testDelayMs);
-      expect(editorInstance.embedRenderEndpoint).toBe(testEndpoint);
     });
 
     test("it updates the highlight on input", () => {
